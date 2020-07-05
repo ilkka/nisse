@@ -13,6 +13,12 @@ namespace Nisse.Plants {
 
   Plant "+plants *" *-- "+species 1" PlantSpecies : Belongs to >
 
+  class CareNote {
+    +string body
+  }
+
+  Plant "+plant 1" *-- "+notes *" CareNote
+
   class Room {
     +string label
   }
