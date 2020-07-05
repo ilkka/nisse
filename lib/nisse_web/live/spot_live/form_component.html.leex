@@ -10,5 +10,9 @@
   <%= text_input f, :label %>
   <%= error_tag f, :label %>
 
+  <%= label f, :room_id %>
+  <%= select f, :room_id, Enum.map(@rooms, &{&1.label, &1.id}) %>
+  <%= error_tag f, :room_id %>
+
   <%= submit "Save", phx_disable_with: "Saving..." %>
 </form>

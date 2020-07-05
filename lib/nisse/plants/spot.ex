@@ -5,6 +5,7 @@ defmodule Nisse.Plants.Spot do
   schema "spots" do
     field :label, :string
     belongs_to :room, Nisse.Plants.Room
+    has_many :plants, Nisse.Plants.Plant
     timestamps()
   end
 

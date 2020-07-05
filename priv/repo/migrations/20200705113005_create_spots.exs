@@ -7,6 +7,5 @@ defmodule Nisse.Repo.Migrations.CreateSpots do
 
       timestamps()
     end
-
   end
 end

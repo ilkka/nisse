@@ -35,7 +35,7 @@ defmodule Nisse.Plants do
       ** (Ecto.NoResultsError)
 
   """
-  def get_plant!(id), do: Repo.get!(Plant, id) |> Repo.preload([:species])
+  def get_plant!(id), do: Repo.get!(Plant, id) |> Repo.preload([:species, spot: [:room]])
 
   @doc """
   Creates a plant.
@@ -210,7 +210,7 @@ defmodule Nisse.Plants do
 
   """
   def list_spots do
-    Repo.all(Spot)
+    Repo.all(Spot) |> Repo.preload([:room])
   end
 
   @doc """
@@ -227,7 +227,7 @@ defmodule Nisse.Plants do
       ** (Ecto.NoResultsError)
 
   """
-  def get_spot!(id), do: Repo.get!(Spot, id)
+  def get_spot!(id), do: Repo.get!(Spot, id) |> Repo.preload([:room, plants: [:species]])
 
   @doc """
   Creates a spot.

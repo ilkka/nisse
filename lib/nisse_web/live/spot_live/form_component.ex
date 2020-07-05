@@ -4,6 +4,11 @@ defmodule NisseWeb.SpotLive.FormComponent do
   alias Nisse.Plants
 
   @impl true
+  def mount(socket) do
+    {:ok, assign(socket, :rooms, list_rooms())}
+  end
+
+  @impl true
   def update(%{spot: spot} = assigns, socket) do
     changeset = Plants.change_spot(spot)
 
@@ -51,5 +56,9 @@ defmodule NisseWeb.SpotLive.FormComponent do
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, changeset: changeset)}
     end
+  end
+
+  defp list_rooms do
+    Plants.list_rooms()
   end
 end

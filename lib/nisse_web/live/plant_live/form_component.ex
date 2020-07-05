@@ -6,7 +6,7 @@ defmodule NisseWeb.PlantLive.FormComponent do
 
   @impl true
   def mount(socket) do
-    {:ok, assign(socket, :all_species, list_plant_species())}
+    {:ok, assign(socket, all_species: list_plant_species(), spots: list_spots())}
   end
 
   @impl true
@@ -61,5 +61,9 @@ defmodule NisseWeb.PlantLive.FormComponent do
 
   defp list_plant_species() do
     Plants.list_plant_species()
+  end
+
+  defp list_spots() do
+    Plants.list_spots()
   end
 end
