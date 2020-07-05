@@ -5,9 +5,9 @@ defmodule NisseWeb.PlantLiveTest do
 
   alias Nisse.Plants
 
-  @create_attrs %{acquired_on: ~D[2010-04-17], name: "some name"}
-  @update_attrs %{acquired_on: ~D[2011-05-18], name: "some updated name"}
-  @invalid_attrs %{acquired_on: nil, name: nil}
+  @create_attrs %{acquired_on: %{year: "2010", month: "4", day: "17"}, name: "some name"}
+  @update_attrs %{acquired_on: %{year: "2011", month: "5", day: "18"}, name: "some updated name"}
+  @invalid_attrs %{name: nil}
 
   defp fixture(:plant) do
     {:ok, plant} = Plants.create_plant(@create_attrs)
