@@ -1,0 +1,32 @@
+<h1>Show Plant species</h1>
+
+<%= if @live_action in [:edit] do %>
+  <%= live_modal @socket, NisseWeb.PlantSpeciesLive.FormComponent,
+    id: @plant_species.id,
+    title: @page_title,
+    action: @live_action,
+    plant_species: @plant_species,
+    return_to: Routes.plant_species_show_path(@socket, :show, @plant_species) %>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @plant_species.name %>
+  </li>
+
+  <li>
+    <strong>Common name:</strong>
+    <%= @plant_species.common_name %>
+  </li>
+
+  <li>
+    <strong>Care instructions:</strong>
+    <%= @plant_species.care_instructions %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.plant_species_show_path(@socket, :edit, @plant_species), class: "button" %></span>
+<span><%= live_redirect "Back", to: Routes.plant_species_index_path(@socket, :index) %></span>

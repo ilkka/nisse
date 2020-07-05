@@ -18,7 +18,7 @@ defmodule Nisse.Plants do
 
   """
   def list_plants do
-    Repo.all(Plant)
+    Repo.all(Plant) |> Repo.preload([:species])
   end
 
   @doc """
@@ -35,7 +35,7 @@ defmodule Nisse.Plants do
       ** (Ecto.NoResultsError)
 
   """
-  def get_plant!(id), do: Repo.get!(Plant, id)
+  def get_plant!(id), do: Repo.get!(Plant, id) |> Repo.preload([:species])
 
   @doc """
   Creates a plant.
@@ -100,5 +100,101 @@ defmodule Nisse.Plants do
   """
   def change_plant(%Plant{} = plant, attrs \\ %{}) do
     Plant.changeset(plant, attrs)
+  end
+
+  alias Nisse.Plants.PlantSpecies
+
+  @doc """
+  Returns the list of plant_species.
+
+  ## Examples
+
+      iex> list_plant_species()
+      [%PlantSpecies{}, ...]
+
+  """
+  def list_plant_species do
+    Repo.all(PlantSpecies)
+  end
+
+  @doc """
+  Gets a single plant_species.
+
+  Raises `Ecto.NoResultsError` if the Plant species does not exist.
+
+  ## Examples
+
+      iex> get_plant_species!(123)
+      %PlantSpecies{}
+
+      iex> get_plant_species!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_plant_species!(id), do: Repo.get!(PlantSpecies, id)
+
+  @doc """
+  Creates a plant_species.
+
+  ## Examples
+
+      iex> create_plant_species(%{field: value})
+      {:ok, %PlantSpecies{}}
+
+      iex> create_plant_species(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_plant_species(attrs \\ %{}) do
+    %PlantSpecies{}
+    |> PlantSpecies.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a plant_species.
+
+  ## Examples
+
+      iex> update_plant_species(plant_species, %{field: new_value})
+      {:ok, %PlantSpecies{}}
+
+      iex> update_plant_species(plant_species, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_plant_species(%PlantSpecies{} = plant_species, attrs) do
+    plant_species
+    |> PlantSpecies.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a plant_species.
+
+  ## Examples
+
+      iex> delete_plant_species(plant_species)
+      {:ok, %PlantSpecies{}}
+
+      iex> delete_plant_species(plant_species)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_plant_species(%PlantSpecies{} = plant_species) do
+    Repo.delete(plant_species)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking plant_species changes.
+
+  ## Examples
+
+      iex> change_plant_species(plant_species)
+      %Ecto.Changeset{data: %PlantSpecies{}}
+
+  """
+  def change_plant_species(%PlantSpecies{} = plant_species, attrs \\ %{}) do
+    PlantSpecies.changeset(plant_species, attrs)
   end
 end

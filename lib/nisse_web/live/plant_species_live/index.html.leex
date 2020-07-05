@@ -1,0 +1,39 @@
+<h1>Listing Plant species</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <%= live_modal @socket, NisseWeb.PlantSpeciesLive.FormComponent,
+    id: @plant_species.id || :new,
+    title: @page_title,
+    action: @live_action,
+    plant_species: @plant_species,
+    return_to: Routes.plant_species_index_path(@socket, :index) %>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Common name</th>
+      <th>Care instructions</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="plant_species">
+    <%= for plant_species <- @plant_species_collection do %>
+      <tr id="plant_species-<%= plant_species.id %>">
+        <td><%= plant_species.name %></td>
+        <td><%= plant_species.common_name %></td>
+        <td><%= plant_species.care_instructions %></td>
+
+        <td>
+          <span><%= live_redirect "Show", to: Routes.plant_species_show_path(@socket, :show, plant_species) %></span>
+          <span><%= live_patch "Edit", to: Routes.plant_species_index_path(@socket, :edit, plant_species) %></span>
+          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: plant_species.id, data: [confirm: "Are you sure?"] %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<span><%= live_patch "New Plant species", to: Routes.plant_species_index_path(@socket, :new) %></span>

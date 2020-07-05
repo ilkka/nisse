@@ -1,0 +1,22 @@
+<h2><%= @title %></h2>
+
+<%= f = form_for @changeset, "#",
+  id: "plant_species-form",
+  phx_target: @myself,
+  phx_change: "validate",
+  phx_submit: "save" %>
+
+  <%= label f, :name %>
+  <%= text_input f, :name %>
+  <%= error_tag f, :name %>
+
+  <%= label f, :common_name %>
+  <%= text_input f, :common_name %>
+  <%= error_tag f, :common_name %>
+
+  <%= label f, :care_instructions %>
+  <%= textarea f, :care_instructions %>
+  <%= error_tag f, :care_instructions %>
+
+  <%= submit "Save", phx_disable_with: "Saving..." %>
+</form>
