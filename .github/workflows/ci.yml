@@ -41,5 +41,5 @@ jobs:
         run: mix test
         env:
           DB_URL: "ecto://nisse:nisse@localhost:5432/nisse_test"
-          SECRET_KEY_BASE: "deadbeef"
-          SIGNING_SALT: "abbaacdc"
+          SECRET_KEY_BASE: "rU3X/+Fw60UYALcN51sAtD+c3jFSjjSsCSY83IGmaJywiwiSVyNnepYKZSPYO0Uv"
+          SIGNING_SALT: "5bb1LGNuwb8LHpHAMTtG9HCdg5VJbYBoNy/etC88WjbEHhZqbRuBiiQSaSzZZroE"
