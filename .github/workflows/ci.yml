@@ -37,12 +37,9 @@ jobs:
           postgresql password: nisse
       - name: Install dependencies
         run: mix deps.get
-      - name: set-env
-        uses: allenevans/set-env@v1.1.0
-        with:
-          overwrite: true
+      - name: Run tests
+        run: mix test
+        env:
           DB_URL: "ecto://nisse:nisse@localhost:5432/nisse_test"
           SECRET_KEY_BASE: "deadbeef"
           SIGNING_SALT: "abbaacdc"
-      - name: Run tests
-        run: mix test
