@@ -1,20 +1,19 @@
 @startuml
-namespace Nisse.Schemas {
+namespace Nisse.Plants {
   class Plant {
-    +int id
     +string name
     +date acquired_on
   }
 
   class PlantSpecies {
-    +int id
+    +string name
+    +string commonName
     +string careInstructions
   }
 
   Plant "+plants *" *-- "+species 1" PlantSpecies : Belongs to >
 
   class Room {
-    +int id
     +string label
   }
   
@@ -42,7 +41,6 @@ namespace Nisse.Schemas {
   }
 
   class Spot {
-    +int id
     +string label
   }
 
@@ -55,7 +53,6 @@ namespace Nisse.Schemas {
   Plant "+plants *" *-- "+spot 1" Spot : Is in >
 
   class PlantEvent {
-    +int id
     +string note
     +utc_datetime inserted_at
   }
