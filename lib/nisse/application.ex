@@ -6,15 +6,33 @@ defmodule Nisse.Application do
   use Application
 
   def start(_type, _args) do
+    config =
+      Vapor.load!([
+        %Vapor.Provider.Dotenv{},
+        %Vapor.Provider.Env{
+          bindings: [
+            {:port, "PORT", default: 4000, map: &String.to_integer/1},
+            {:hostname, "HOSTNAME", default: "localhost"},
+            {:secret_key_base, "SECRET_KEY_BASE"},
+            {:signing_salt, "SIGNING_SALT"}
+          ]
+        }
+      ])
+
     children = [
       # Start the Ecto repository
+      # (This gets configured via callback)
       Nisse.Repo,
       # Start the Telemetry supervisor
       NisseWeb.Telemetry,
       # Start the PubSub system
       {Phoenix.PubSub, name: Nisse.PubSub},
       # Start the Endpoint (http/https)
-      NisseWeb.Endpoint
+      {NisseWeb.Endpoint,
+       http: [port: config.port],
+       url: [host: config.hostname, port: config.port],
+       secret_key_base: config.secret_key_base,
+       live_view: [signing_salt: config.signing_salt]}
       # Start a worker by calling: Nisse.Worker.start_link(arg)
       # {Nisse.Worker, arg}
     ]

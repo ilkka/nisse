@@ -2,10 +2,6 @@ use Mix.Config
 
 # Configure your database
 config :nisse, Nisse.Repo,
-  username: "postgres",
-  password: "postgres",
-  database: "nisse_dev",
-  hostname: "localhost",
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 
@@ -16,7 +12,6 @@ config :nisse, Nisse.Repo,
 # watchers to your application. For example, we use it
 # with webpack to recompile .js and .css sources.
 config :nisse, NisseWeb.Endpoint,
-  http: [port: 4000],
   debug_errors: true,
   code_reloader: true,
   check_origin: false,

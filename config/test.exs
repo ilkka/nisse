@@ -5,18 +5,11 @@ use Mix.Config
 # The MIX_TEST_PARTITION environment variable can be used
 # to provide built-in test partitioning in CI environment.
 # Run `mix help test` for more information.
-config :nisse, Nisse.Repo,
-  username: "postgres",
-  password: "postgres",
-  database: "nisse_test#{System.get_env("MIX_TEST_PARTITION")}",
-  hostname: "localhost",
-  pool: Ecto.Adapters.SQL.Sandbox
+config :nisse, Nisse.Repo, pool: Ecto.Adapters.SQL.Sandbox
 
 # We don't run a server during test. If one is required,
 # you can enable the server option below.
-config :nisse, NisseWeb.Endpoint,
-  http: [port: 4002],
-  server: false
+config :nisse, NisseWeb.Endpoint, server: false
 
 # Print only warnings and errors during test
 config :logger, level: :warn

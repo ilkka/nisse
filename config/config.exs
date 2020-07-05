@@ -12,11 +12,8 @@ config :nisse,
 
 # Configures the endpoint
 config :nisse, NisseWeb.Endpoint,
-  url: [host: "localhost"],
-  secret_key_base: "KIwvMHurcwPGNKCi/WU9rfVLUhAvQFxI5eahelwinPQqhEf5kcioxsAd7/eq/8To",
   render_errors: [view: NisseWeb.ErrorView, accepts: ~w(html json), layout: false],
-  pubsub_server: Nisse.PubSub,
-  live_view: [signing_salt: "vcJzG7c3"]
+  pubsub_server: Nisse.PubSub
 
 # Configures Elixir's Logger
 config :logger, :console,
