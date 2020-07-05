@@ -1,5 +1,5 @@
 defmodule Nisse.Plants.Plant do
-  use Ecto.Schema
+  use Nisse.Schema
   import Ecto.Changeset
 
   schema "plants" do
