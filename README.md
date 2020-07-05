@@ -1,5 +1,7 @@
 # Nisse
 
+![CI](https://github.com/ilkka/nisse/workflows/CI/badge.svg)
+
 Nisse is a home ERP system. I think I'm gonna start with plants, since that's what I need to solve right now.
 
 To start your Phoenix server:
