@@ -5,7 +5,14 @@ defmodule NisseWeb.SpotLive.FormComponent do
 
   @impl true
   def mount(socket) do
-    {:ok, assign(socket, rooms: list_rooms(), light_directions: get_light_directions())}
+    socket =
+      socket
+      |> assign(rooms: list_rooms())
+      |> assign(light_directions: get_light_directions())
+      |> assign(light_levels: get_light_levels())
+      |> assign(temperatures: get_temperatures())
+
+    {:ok, socket}
   end
 
   @impl true
@@ -64,5 +71,13 @@ defmodule NisseWeb.SpotLive.FormComponent do
 
   defp get_light_directions do
     Plants.light_directions()
+  end
+
+  defp get_light_levels do
+    Plants.light_levels()
+  end
+
+  defp get_temperatures do
+    Plants.temperatures()
   end
 end

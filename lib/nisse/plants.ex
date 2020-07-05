@@ -390,7 +390,24 @@ defmodule Nisse.Plants do
     Room.changeset(room, attrs)
   end
 
+  @doc """
+  Get available spot light direction values.
+  """
   def light_directions() do
     Repo.query!("SELECT enum_range(NULL::light_direction)").rows |> Enum.at(0) |> Enum.at(0)
+  end
+
+  @doc """
+  Get available spot light level values.
+  """
+  def light_levels() do
+    Repo.query!("SELECT enum_range(NULL::light_level)").rows |> Enum.at(0) |> Enum.at(0)
+  end
+
+  @doc """
+  Get available spot temperature values.
+  """
+  def temperatures() do
+    Repo.query!("SELECT enum_range(NULL::temperature)").rows |> Enum.at(0) |> Enum.at(0)
   end
 end

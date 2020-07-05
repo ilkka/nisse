@@ -18,5 +18,13 @@
   <%= select f, :light_direction, @light_directions %>
   <%= error_tag f, :light_direction %>
 
+  <%= label f, :light_level %>
+  <%= select f, :light_level, @light_levels %>
+  <%= error_tag f, :light_level %>
+
+  <%= label f, :temperature %>
+  <%= select f, :temperature, @temperatures %>
+  <%= error_tag f, :temperature %>
+
   <%= submit "Save", phx_disable_with: "Saving..." %>
 </form>
