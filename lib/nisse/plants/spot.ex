@@ -4,14 +4,14 @@ defmodule Nisse.Plants.Spot do
 
   schema "spots" do
     field :label, :string
-
+    belongs_to :room, Nisse.Plants.Room
     timestamps()
   end
 
   @doc false
   def changeset(spot, attrs) do
     spot
-    |> cast(attrs, [:label])
-    |> validate_required([:label])
+    |> cast(attrs, [:label, :room_id])
+    |> validate_required([:label, :room_id])
   end
 end
