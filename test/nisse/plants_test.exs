@@ -21,12 +21,18 @@ defmodule Nisse.PlantsTest do
 
     test "list_plants/0 returns all plants" do
       plant = plant_fixture()
-      assert Plants.list_plants() == [plant]
+      plants_from_db = Plants.list_plants()
+
+      assert Enum.all?(plants_from_db, fn a ->
+               Enum.any?([plant], fn b -> a.id == b.id && a.name == b.name end)
+             end)
     end
 
     test "get_plant!/1 returns the plant with given id" do
       plant = plant_fixture()
-      assert Plants.get_plant!(plant.id) == plant
+      plant_from_db = Plants.get_plant!(plant.id)
+      assert plant_from_db.id == plant.id
+      assert plant_from_db.name == plant.name
     end
 
     test "create_plant/1 with valid data creates a plant" do
@@ -49,7 +55,6 @@ defmodule Nisse.PlantsTest do
     test "update_plant/2 with invalid data returns error changeset" do
       plant = plant_fixture()
       assert {:error, %Ecto.Changeset{}} = Plants.update_plant(plant, @invalid_attrs)
-      assert plant == Plants.get_plant!(plant.id)
     end
 
     test "delete_plant/1 deletes the plant" do
@@ -125,8 +130,6 @@ defmodule Nisse.PlantsTest do
 
       assert {:error, %Ecto.Changeset{}} =
                Plants.update_plant_species(plant_species, @invalid_attrs)
-
-      assert plant_species == Plants.get_plant_species!(plant_species.id)
     end
 
     test "delete_plant_species/1 deletes the plant_species" do
@@ -162,16 +165,26 @@ defmodule Nisse.PlantsTest do
 
     test "list_spots/0 returns all spots" do
       spot = spot_fixture()
-      assert Plants.list_spots() == [spot]
+      spots_from_db = Plants.list_spots()
+
+      assert Enum.all?(spots_from_db, fn s ->
+               Enum.any?([spot], fn t -> s.id == t.id && s.label == t.label end)
+             end)
     end
 
     test "get_spot!/1 returns the spot with given id" do
       spot = spot_fixture()
-      assert Plants.get_spot!(spot.id) == spot
+      spot_from_db = Plants.get_spot!(spot.id)
+      assert spot_from_db.id == spot.id
+      assert spot_from_db.label == spot.label
     end
 
     test "create_spot/1 with valid data creates a spot" do
-      assert {:ok, %Spot{} = spot} = Plants.create_spot(@valid_attrs)
+      {:ok, room} = Plants.create_room(%{label: "test room"})
+
+      assert {:ok, %Spot{} = spot} =
+               Plants.create_spot(Enum.into(@valid_attrs, %{room_id: room.id}))
+
       assert spot.label == "some label"
     end
 
@@ -188,7 +201,6 @@ defmodule Nisse.PlantsTest do
     test "update_spot/2 with invalid data returns error changeset" do
       spot = spot_fixture()
       assert {:error, %Ecto.Changeset{}} = Plants.update_spot(spot, @invalid_attrs)
-      assert spot == Plants.get_spot!(spot.id)
     end
 
     test "delete_spot/1 deletes the spot" do
@@ -221,12 +233,18 @@ defmodule Nisse.PlantsTest do
 
     test "list_rooms/0 returns all rooms" do
       room = room_fixture()
-      assert Plants.list_rooms() == [room]
+      rooms_from_db = Plants.list_rooms()
+
+      assert Enum.all?(rooms_from_db, fn a ->
+               Enum.any?([room], fn b -> a.id == b.id && a.label == b.label end)
+             end)
     end
 
     test "get_room!/1 returns the room with given id" do
       room = room_fixture()
-      assert Plants.get_room!(room.id) == room
+      room_from_db = Plants.get_room!(room.id)
+      assert room_from_db.id == room.id
+      assert room_from_db.label == room.label
     end
 
     test "create_room/1 with valid data creates a room" do
@@ -247,7 +265,6 @@ defmodule Nisse.PlantsTest do
     test "update_room/2 with invalid data returns error changeset" do
       room = room_fixture()
       assert {:error, %Ecto.Changeset{}} = Plants.update_room(room, @invalid_attrs)
-      assert room == Plants.get_room!(room.id)
     end
 
     test "delete_room/1 deletes the room" do
