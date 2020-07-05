@@ -1,0 +1,27 @@
+<h1>Show Plant</h1>
+
+<%= if @live_action in [:edit] do %>
+  <%= live_modal @socket, NisseWeb.PlantLive.FormComponent,
+    id: @plant.id,
+    title: @page_title,
+    action: @live_action,
+    plant: @plant,
+    return_to: Routes.plant_show_path(@socket, :show, @plant) %>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @plant.name %>
+  </li>
+
+  <li>
+    <strong>Acquired on:</strong>
+    <%= @plant.acquired_on %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.plant_show_path(@socket, :edit, @plant), class: "button" %></span>
+<span><%= live_redirect "Back", to: Routes.plant_index_path(@socket, :index) %></span>
