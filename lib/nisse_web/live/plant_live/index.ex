@@ -3,6 +3,7 @@ defmodule NisseWeb.PlantLive.Index do
 
   alias Nisse.Plants
   alias Nisse.Plants.Plant
+  alias Nisse.Plants.PlantSpecies
 
   @impl true
   def mount(_params, _session, socket) do
@@ -23,7 +24,7 @@ defmodule NisseWeb.PlantLive.Index do
   defp apply_action(socket, :new, _params) do
     socket
     |> assign(:page_title, "New Plant")
-    |> assign(:plant, %Plant{})
+    |> assign(:plant, %Plant{species: %PlantSpecies{}})
   end
 
   defp apply_action(socket, :index, _params) do

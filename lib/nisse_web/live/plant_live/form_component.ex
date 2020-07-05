@@ -2,6 +2,12 @@ defmodule NisseWeb.PlantLive.FormComponent do
   use NisseWeb, :live_component
 
   alias Nisse.Plants
+  alias Nisse.Plants
+
+  @impl true
+  def mount(socket) do
+    {:ok, assign(socket, :all_species, list_plant_species())}
+  end
 
   @impl true
   def update(%{plant: plant} = assigns, socket) do
@@ -51,5 +57,9 @@ defmodule NisseWeb.PlantLive.FormComponent do
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, changeset: changeset)}
     end
+  end
+
+  defp list_plant_species() do
+    Plants.list_plant_species()
   end
 end

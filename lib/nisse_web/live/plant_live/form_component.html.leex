@@ -10,6 +10,10 @@
   <%= text_input f, :name %>
   <%= error_tag f, :name %>
 
+  <%= label f, :species_id %>
+  <%= select f, :species_id, Enum.map(@all_species, &{&1.name, &1.id}), prompt: "Unknown" %>
+  <%= error_tag f, :species_id %>
+
   <%= label f, :acquired_on %>
   <%= date_select f, :acquired_on, value: Date.utc_today(), year: [options: 1900..(Date.utc_today().year + 1)] %>
   <%= error_tag f, :acquired_on %>
