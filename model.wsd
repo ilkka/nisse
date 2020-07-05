@@ -3,6 +3,7 @@ namespace Nisse.Schemas {
   class Plant {
     +int id
     +string name
+    +date acquired_on
   }
 
   class PlantSpecies {
@@ -56,6 +57,7 @@ namespace Nisse.Schemas {
   class PlantEvent {
     +int id
     +string note
+    +utc_datetime inserted_at
   }
 
   enum PlantEventType {
@@ -66,6 +68,7 @@ namespace Nisse.Schemas {
     POT
     TRIM
     FERTILIZE
+    MOVE
   }
 
   PlantEvent "*" *--> "+type 1" PlantEventType
