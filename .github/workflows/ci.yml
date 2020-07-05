@@ -2,47 +2,47 @@ name: CI
 
 on:
   push:
-    branches: [ trunk ]
+    branches: [trunk]
   pull_request:
-    branches: [ trunk ]
-    
+    branches: [trunk]
+
 jobs:
   build:
-
     name: Build and test
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Elixir
-      uses: actions/setup-elixir@v1
-      with:
-        elixir-version: '1.10.3' # Define the elixir version [required]
-        otp-version: '22.3' # Define the OTP version [required]
-    - name: Restore dependencies cache
-      uses: actions/cache@v2
-      with:
-        path: deps
-        key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
-        restore-keys: ${{ runner.os }}-mix-
-    - name: Setup PostgreSQL
-      uses: Harmon758/postgresql-action@v1.0.0
-      with:
-        # Version of PostgreSQL to use
-        postgresql version: '12'
-        # POSTGRES_DB - name for the default database that is created
-        postgresql db: nisse_test
-        # POSTGRES_USER - create the specified user with superuser power
-        postgresql user: nisse
-        # POSTGRES_PASSWORD - superuser password
-        postgresql password: nisse
-    - name: Install dependencies
-      run: mix deps.get
-    - name: set-env
-      uses: allenevans/set-env@v1.1.0
-      with:
-        DB_URL: "ecto://nisse:nisse@localhost:5432/nisse_test"
-        SECRET_KEY_BASE: "deadbeef"
-        SIGNING_SALT: "abbaacdc"
-    - name: Run tests
-      run: mix test
+      - uses: actions/checkout@v2
+      - name: Set up Elixir
+        uses: actions/setup-elixir@v1
+        with:
+          elixir-version: "1.10.3" # Define the elixir version [required]
+          otp-version: "22.3" # Define the OTP version [required]
+      - name: Restore dependencies cache
+        uses: actions/cache@v2
+        with:
+          path: deps
+          key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
+          restore-keys: ${{ runner.os }}-mix-
+      - name: Setup PostgreSQL
+        uses: Harmon758/postgresql-action@v1.0.0
+        with:
+          # Version of PostgreSQL to use
+          postgresql version: "12"
+          # POSTGRES_DB - name for the default database that is created
+          postgresql db: nisse_test
+          # POSTGRES_USER - create the specified user with superuser power
+          postgresql user: nisse
+          # POSTGRES_PASSWORD - superuser password
+          postgresql password: nisse
+      - name: Install dependencies
+        run: mix deps.get
+      - name: set-env
+        uses: allenevans/set-env@v1.1.0
+        with:
+          overwrite: true
+          DB_URL: "ecto://nisse:nisse@localhost:5432/nisse_test"
+          SECRET_KEY_BASE: "deadbeef"
+          SIGNING_SALT: "abbaacdc"
+      - name: Run tests
+        run: mix test
