@@ -11,7 +11,7 @@
   <%= error_tag f, :name %>
 
   <%= label f, :acquired_on %>
-  <%= date_select f, :acquired_on %>
+  <%= date_select f, :acquired_on, year: [options: 1900..Date.utc_today().year] %>
   <%= error_tag f, :acquired_on %>
 
   <%= submit "Save", phx_disable_with: "Saving..." %>
