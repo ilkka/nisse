@@ -19,6 +19,7 @@ defmodule NisseWeb.Router do
 
     live "/", PageLive, :index
 
+    # Plants
     live "/plants", PlantLive.Index, :index
     live "/plants/new", PlantLive.Index, :new
     live "/plants/:id/edit", PlantLive.Index, :edit
@@ -26,12 +27,21 @@ defmodule NisseWeb.Router do
     live "/plants/:id", PlantLive.Show, :show
     live "/plants/:id/show/edit", PlantLive.Show, :edit
 
+    # Species
     live "/plant_species", PlantSpeciesLive.Index, :index
     live "/plant_species/new", PlantSpeciesLive.Index, :new
     live "/plant_species/:id/edit", PlantSpeciesLive.Index, :edit
 
     live "/plant_species/:id", PlantSpeciesLive.Show, :show
     live "/plant_species/:id/show/edit", PlantSpeciesLive.Show, :edit
+
+    # Spots
+    live "/spots", SpotLive.Index, :index
+    live "/spots/new", SpotLive.Index, :new
+    live "/spots/:id/edit", SpotLive.Index, :edit
+
+    live "/spots/:id", SpotLive.Show, :show
+    live "/spots/:id/show/edit", SpotLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.

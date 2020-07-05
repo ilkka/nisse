@@ -1,0 +1,22 @@
+<h1>Show Spot</h1>
+
+<%= if @live_action in [:edit] do %>
+  <%= live_modal @socket, NisseWeb.SpotLive.FormComponent,
+    id: @spot.id,
+    title: @page_title,
+    action: @live_action,
+    spot: @spot,
+    return_to: Routes.spot_show_path(@socket, :show, @spot) %>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Label:</strong>
+    <%= @spot.label %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.spot_show_path(@socket, :edit, @spot), class: "button" %></span>
+<span><%= live_redirect "Back", to: Routes.spot_index_path(@socket, :index) %></span>

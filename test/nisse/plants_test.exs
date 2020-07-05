@@ -126,4 +126,63 @@ defmodule Nisse.PlantsTest do
       assert %Ecto.Changeset{} = Plants.change_plant_species(plant_species)
     end
   end
+
+  describe "spots" do
+    alias Nisse.Plants.Spot
+
+    @valid_attrs %{label: "some label"}
+    @update_attrs %{label: "some updated label"}
+    @invalid_attrs %{label: nil}
+
+    def spot_fixture(attrs \\ %{}) do
+      {:ok, spot} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Plants.create_spot()
+
+      spot
+    end
+
+    test "list_spots/0 returns all spots" do
+      spot = spot_fixture()
+      assert Plants.list_spots() == [spot]
+    end
+
+    test "get_spot!/1 returns the spot with given id" do
+      spot = spot_fixture()
+      assert Plants.get_spot!(spot.id) == spot
+    end
+
+    test "create_spot/1 with valid data creates a spot" do
+      assert {:ok, %Spot{} = spot} = Plants.create_spot(@valid_attrs)
+      assert spot.label == "some label"
+    end
+
+    test "create_spot/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Plants.create_spot(@invalid_attrs)
+    end
+
+    test "update_spot/2 with valid data updates the spot" do
+      spot = spot_fixture()
+      assert {:ok, %Spot{} = spot} = Plants.update_spot(spot, @update_attrs)
+      assert spot.label == "some updated label"
+    end
+
+    test "update_spot/2 with invalid data returns error changeset" do
+      spot = spot_fixture()
+      assert {:error, %Ecto.Changeset{}} = Plants.update_spot(spot, @invalid_attrs)
+      assert spot == Plants.get_spot!(spot.id)
+    end
+
+    test "delete_spot/1 deletes the spot" do
+      spot = spot_fixture()
+      assert {:ok, %Spot{}} = Plants.delete_spot(spot)
+      assert_raise Ecto.NoResultsError, fn -> Plants.get_spot!(spot.id) end
+    end
+
+    test "change_spot/1 returns a spot changeset" do
+      spot = spot_fixture()
+      assert %Ecto.Changeset{} = Plants.change_spot(spot)
+    end
+  end
 end
