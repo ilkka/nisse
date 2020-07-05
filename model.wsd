@@ -1,0 +1,75 @@
+@startuml
+namespace Nisse.Schemas {
+  class Plant {
+    +int id
+    +string name
+  }
+
+  class PlantSpecies {
+    +int id
+    +string careInstructions
+  }
+
+  Plant "+plants *" *-- "+species 1" PlantSpecies : Belongs to >
+
+  class Room {
+    +int id
+    +string label
+  }
+  
+  Enum LightDirection {
+    N
+    NE
+    E
+    SE
+    S
+    SW
+    W
+    NW
+  }
+
+  Enum LightLevel {
+    LOW
+    MEDIUM
+    HIGH
+  }
+
+  Enum Temperature {
+    LOW
+    MEDIUM
+    HIGH
+  }
+
+  class Spot {
+    +int id
+    +string label
+  }
+
+  Spot "*" *--> "+lightLevel 1" LightLevel
+  Spot "*" *--> "+lightDirection 1" LightDirection
+  Spot "*" *--> "+temperature 1" Temperature
+
+  Room "+room 1" *-- "+spots *" Spot : Has >
+
+  Plant "+plants *" *-- "+spot 1" Spot : Is in >
+
+  class PlantEvent {
+    +int id
+    +string note
+  }
+
+  enum PlantEventType {
+    WATER
+    SPRAY
+    WIPE
+    WATER_TANK
+    POT
+    TRIM
+    FERTILIZE
+  }
+
+  PlantEvent "*" *--> "+type 1" PlantEventType
+
+  PlantEvent "+events *" *-- "+subject 1" Plant
+}
+@enduml
