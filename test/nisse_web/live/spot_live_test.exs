@@ -10,7 +10,8 @@ defmodule NisseWeb.SpotLiveTest do
   @invalid_attrs %{label: nil}
 
   defp fixture(:spot) do
-    {:ok, spot} = Plants.create_spot(@create_attrs)
+    {:ok, room} = Plants.create_room(%{label: "test room"})
+    {:ok, spot} = Plants.create_spot(@create_attrs |> Map.put(:room_id, room.id))
     spot
   end
 

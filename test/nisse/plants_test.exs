@@ -67,8 +67,16 @@ defmodule Nisse.PlantsTest do
   describe "plant_species" do
     alias Nisse.Plants.PlantSpecies
 
-    @valid_attrs %{care_instructions: "some care_instructions", common_name: "some common_name", name: "some name"}
-    @update_attrs %{care_instructions: "some updated care_instructions", common_name: "some updated common_name", name: "some updated name"}
+    @valid_attrs %{
+      care_instructions: "some care_instructions",
+      common_name: "some common_name",
+      name: "some name"
+    }
+    @update_attrs %{
+      care_instructions: "some updated care_instructions",
+      common_name: "some updated common_name",
+      name: "some updated name"
+    }
     @invalid_attrs %{care_instructions: nil, common_name: nil, name: nil}
 
     def plant_species_fixture(attrs \\ %{}) do
@@ -103,7 +111,10 @@ defmodule Nisse.PlantsTest do
 
     test "update_plant_species/2 with valid data updates the plant_species" do
       plant_species = plant_species_fixture()
-      assert {:ok, %PlantSpecies{} = plant_species} = Plants.update_plant_species(plant_species, @update_attrs)
+
+      assert {:ok, %PlantSpecies{} = plant_species} =
+               Plants.update_plant_species(plant_species, @update_attrs)
+
       assert plant_species.care_instructions == "some updated care_instructions"
       assert plant_species.common_name == "some updated common_name"
       assert plant_species.name == "some updated name"
@@ -111,7 +122,10 @@ defmodule Nisse.PlantsTest do
 
     test "update_plant_species/2 with invalid data returns error changeset" do
       plant_species = plant_species_fixture()
-      assert {:error, %Ecto.Changeset{}} = Plants.update_plant_species(plant_species, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               Plants.update_plant_species(plant_species, @invalid_attrs)
+
       assert plant_species == Plants.get_plant_species!(plant_species.id)
     end
 
@@ -135,9 +149,12 @@ defmodule Nisse.PlantsTest do
     @invalid_attrs %{label: nil}
 
     def spot_fixture(attrs \\ %{}) do
+      {:ok, room} = Plants.create_room(%{label: "test room"})
+
       {:ok, spot} =
         attrs
         |> Enum.into(@valid_attrs)
+        |> Enum.into(%{room_id: room.id})
         |> Plants.create_spot()
 
       spot
