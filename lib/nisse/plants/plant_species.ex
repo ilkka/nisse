@@ -7,7 +7,7 @@ defmodule Nisse.Plants.PlantSpecies do
     field :care_instructions, :string
     field :common_name, :string
     field :name, :string
-    has_many :plants, Plant
+    has_many :plants, Plant, foreign_key: "species_id"
     timestamps()
   end
 
