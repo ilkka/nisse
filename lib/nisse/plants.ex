@@ -389,4 +389,8 @@ defmodule Nisse.Plants do
   def change_room(%Room{} = room, attrs \\ %{}) do
     Room.changeset(room, attrs)
   end
+
+  def light_directions() do
+    Repo.query!("SELECT enum_range(NULL::light_direction)").rows |> Enum.at(0) |> Enum.at(0)
+  end
 end

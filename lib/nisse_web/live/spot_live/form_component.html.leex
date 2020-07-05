@@ -14,5 +14,9 @@
   <%= select f, :room_id, Enum.map(@rooms, &{&1.label, &1.id}) %>
   <%= error_tag f, :room_id %>
 
+  <%= label f, :light_direction %>
+  <%= select f, :light_direction, @light_directions %>
+  <%= error_tag f, :light_direction %>
+
   <%= submit "Save", phx_disable_with: "Saving..." %>
 </form>
