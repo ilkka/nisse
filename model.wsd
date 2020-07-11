@@ -11,7 +11,22 @@ namespace Nisse.Plants {
     +string careInstructions
   }
 
-  Plant "+plants *" *-- "+species 1" PlantSpecies : Belongs to >
+  Plant "+plants *" *-- PlantSpecies : Belongs to >
+
+  PlantSpecies "+species 0..*" o--> "+event_type 0..*" PlantEventType
+  (PlantSpecies, PlantEventType) .. CareScheduleEntry
+
+  class CareScheduleEntry {
+    +int interval
+  }
+
+  CareScheduleEntry "*" *--> "+type 1" IntervalType
+
+  Enum IntervalType {
+    DAYS
+    WEEKS
+    MONTHS
+  }
 
   class CareNote {
     +string body
@@ -54,7 +69,7 @@ namespace Nisse.Plants {
   Spot "*" *--> "+lightDirection 1" LightDirection
   Spot "*" *--> "+temperature 1" Temperature
 
-  Room "+room 1" *-- "+spots *" Spot : Has >
+  Room "+room 1" o-- "+spots *" Spot : Has >
 
   Plant "+plants *" *-- "+spot 1" Spot : Is in >
 
