@@ -5,7 +5,7 @@ defmodule Nisse.Plants.Plant do
   schema "plants" do
     field :acquired_on, :date
     field :name, :string
-    belongs_to :species, Nisse.Plants.PlantSpecies
+    belongs_to :species, Nisse.Plants.PlantSpecies, foreign_key: :species_id
     belongs_to :spot, Nisse.Plants.Spot
     timestamps()
   end
