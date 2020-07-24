@@ -19,6 +19,8 @@ COPY . ./
 
 
 FROM base as develop
+RUN apt-get update \
+  && apt-get install -y tig httpie neovim less
 CMD ["mix", "phx.server"]
 
 
