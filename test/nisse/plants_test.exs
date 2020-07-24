@@ -277,5 +277,20 @@ defmodule Nisse.PlantsTest do
       room = room_fixture()
       assert %Ecto.Changeset{} = Plants.change_room(room)
     end
+
+    test "room_has_plants?/1 returns true if and only if the room has plants" do
+      {:ok, room} = Plants.create_room(%{label: "test room"})
+      {:ok, spot} = Plants.create_spot(%{label: "test spot", room_id: room.id})
+      refute Plants.room_has_plants?(room), "No plants if associations not loaded"
+
+      room = Plants.get_room!(room.id)
+      refute Plants.room_has_plants?(room), "No plants before adding plants"
+
+      {:ok, _plant} =
+        Plants.create_plant(%{acquired_on: ~D[2010-04-17], name: "some name", spot_id: spot.id})
+
+      room = Plants.get_room!(room.id)
+      assert Plants.room_has_plants?(room), "Has plants after adding plants"
+    end
   end
 end

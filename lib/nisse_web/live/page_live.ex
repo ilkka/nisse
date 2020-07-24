@@ -1,9 +1,10 @@
 defmodule NisseWeb.PageLive do
   use NisseWeb, :live_view
+  alias Nisse.Plants
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, query: "", results: %{})}
+    {:ok, assign(socket, query: "", results: %{}, rooms: get_rooms())}
   end
 
   @impl true
@@ -35,5 +36,9 @@ defmodule NisseWeb.PageLive do
         String.starts_with?(app, query) and not List.starts_with?(desc, ~c"ERTS"),
         into: %{},
         do: {app, vsn}
+  end
+
+  defp get_rooms do
+    Plants.list_rooms()
   end
 end

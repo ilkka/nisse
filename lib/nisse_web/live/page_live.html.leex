@@ -7,4 +7,18 @@
     <li><%= live_redirect "Rooms", to: Routes.room_index_path(@socket, :index) %></li>
     <li><%= live_redirect "Spots", to: Routes.spot_index_path(@socket, :index) %></li>
   </ul>
+
+  <%= for room <- @rooms, Plants.room_has_plants?(room) do %>
+  <div>
+    <h2><%= room.label %></h2>
+    <%= for spot <- room.spots do %>
+    <%= for plant <- spot.plants do %>
+    <div>
+      <h3><%= plant.name %></h3>
+      <p>A <span><%= plant.species.name %> (<%= plant.species.common_name %>)</span>, location <span><%= spot.label %></span>, last watered <span>NN days ago</span>.</p>
+    </div>
+    <% end %>
+    <% end %>
+  </div>
+  <% end %>
 </section>

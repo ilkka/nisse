@@ -391,6 +391,16 @@ defmodule Nisse.Plants do
   end
 
   @doc """
+  Check if a room has plants in it
+  """
+  def room_has_plants?(%Room{} = room) do
+    room
+    |> Repo.preload(spots: [:plants])
+    |> Map.get(:spots)
+    |> Enum.any?(fn spot -> !Enum.empty?(spot.plants) end)
+  end
+
+  @doc """
   Get available spot light direction values.
   """
   def light_directions() do
