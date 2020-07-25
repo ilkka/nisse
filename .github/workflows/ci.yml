@@ -60,7 +60,7 @@ jobs:
           package-name: nisse
           package-version-ids: ${{ steps.extract_branch.outputs.branch }}
           num-old-versions-to-delete: 999
-        if: ${{ steps.extract_branch.outputs.branch != "trunk" }}
+        if: ${{ steps.extract_branch.outputs.branch != 'trunk' }}
       - name: Build and push
         uses: docker/build-push-action@v1.1.0
         with:
