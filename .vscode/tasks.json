@@ -11,14 +11,6 @@
       "group": {
         "kind": "build",
         "isDefault": true
-      },
-      "presentation": {
-        "echo": true,
-        "reveal": "always",
-        "focus": false,
-        "panel": "dedicated",
-        "showReuseMessage": false,
-        "clear": true
       }
     },
     {
@@ -26,15 +18,7 @@
       "type": "shell",
       "command": "mix phx.server",
       "problemMatcher": ["$mixCompileWarning", "$mixCompileError"],
-      "group": "build",
-      "presentation": {
-        "echo": true,
-        "reveal": "always",
-        "focus": false,
-        "panel": "dedicated",
-        "showReuseMessage": false,
-        "clear": true
-      }
+      "group": "build"
     },
     {
       "label": "mix test",
@@ -48,15 +32,13 @@
       "group": {
         "kind": "test",
         "isDefault": true
-      },
-      "presentation": {
-        "echo": true,
-        "reveal": "always",
-        "focus": false,
-        "panel": "dedicated",
-        "showReuseMessage": false,
-        "clear": true
       }
+    },
+    {
+      "label": "mix ecto.setup",
+      "type": "shell",
+      "command": "mix ecto.setup",
+      "problemMatcher": ["$mixCompileWarning", "$mixCompileError"]
     }
   ]
 }
