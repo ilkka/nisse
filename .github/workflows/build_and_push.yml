@@ -17,8 +17,10 @@ jobs:
           password: ${{ github.token }}
           registry: docker.pkg.github.com
           repository: ilkka/nisse/nisse
-          tag_with_ref: true
+          tags: latest
+          tag_with_ref: false
           tag_with_sha: false
           target: deploy
           add_git_labels: true
+          always_pull: true
           push: true
