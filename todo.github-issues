@@ -1,0 +1,12 @@
+[
+  {
+    "kind": 1,
+    "language": "markdown",
+    "value": "# To do\r\n\r\nHere's the things still need doing:"
+  },
+  {
+    "kind": 2,
+    "language": "github-issues",
+    "value": "$repo = repo:ilkka/nisse\r\n$repo is:open"
+  }
+]
