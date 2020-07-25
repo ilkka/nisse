@@ -3,12 +3,13 @@
 ARG USERNAME=nisse
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
+ARG ELIXIR_VERSION=1.10.3
 
 
 ## **********************************************************************
 ## Base stage for dependencies and tools for dev, build and test
 ## **********************************************************************
-FROM elixir:1.10.3 as base
+FROM elixir:${ELIXIR_VERSION} as base
 LABEL maintainer="Ilkka Poutanen <ilkka@ilkka.dev>"
 
 ENV MIX_ENV=prod
@@ -78,7 +79,7 @@ RUN mix release
 ## **********************************************************************
 ## Run release in production mode
 ## **********************************************************************
-FROM elixir:1.10.3-slim as deploy
+FROM elixir:${ELIXIR_VERSION}-slim as deploy
 LABEL maintainer="Ilkka Poutanen <ilkka@ilkka.dev>"
 ARG USERNAME
 ARG USER_UID
