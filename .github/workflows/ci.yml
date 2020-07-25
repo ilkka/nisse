@@ -50,6 +50,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
+      - name: Delete old images for branch
+        uses: actions/delete-package-versions@v1
+        with:
+          package-name: nisse
+          package-version-ids: ${{ steps.extract_branch.outputs.branch }}
+          num-old-versions-to-delete: 999
+        if: ${{ steps.extract_branch.outputs.branch != "trunk" }}
       - name: Build and push
         uses: docker/build-push-action@v1.1.0
         with:
@@ -57,8 +68,7 @@ jobs:
           password: ${{ secrets.DOCKER_REGISTRY_TOKEN }}
           registry: docker.pkg.github.com
           repository: ilkka/nisse/nisse
-          tags: latest
-          tag_with_ref: false
+          tag_with_ref: true
           tag_with_sha: false
           target: deploy
           add_git_labels: true
