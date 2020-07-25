@@ -1,6 +1,6 @@
 # Nisse
 
-![CI](https://github.com/ilkka/nisse/workflows/CI/badge.svg)
+![Build and push](https://github.com/ilkka/nisse/workflows/Build%20and%20push/badge.svg)
 
 Nisse is a home ERP system. I think I'm gonna start with plants, since that's what I need to solve right now.
 
