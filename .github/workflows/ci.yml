@@ -48,19 +48,9 @@ jobs:
     name: Build and publish image
     needs: [test]
     runs-on: ubuntu-latest
+    if: ${{ github.event == 'push' }}
     steps:
       - uses: actions/checkout@v2
-      - name: Extract branch name
-        shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-        id: extract_branch
-      - name: Delete old images for branch
-        uses: actions/delete-package-versions@v1
-        with:
-          package-name: nisse
-          package-version-ids: ${{ steps.extract_branch.outputs.branch }}
-          num-old-versions-to-delete: 999
-        if: ${{ steps.extract_branch.outputs.branch != 'trunk' }}
       - name: Build and push
         uses: docker/build-push-action@v1.1.0
         with:
