@@ -7,8 +7,8 @@ on:
     branches: [trunk]
 
 jobs:
-  build:
-    name: Build and test
+  test:
+    name: Test
     runs-on: ubuntu-latest
 
     steps:
@@ -43,3 +43,23 @@ jobs:
           DB_URL: "ecto://nisse:nisse@localhost:5432/nisse_test"
           SECRET_KEY_BASE: "rU3X/+Fw60UYALcN51sAtD+c3jFSjjSsCSY83IGmaJywiwiSVyNnepYKZSPYO0Uv"
           SIGNING_SALT: "5bb1LGNuwb8LHpHAMTtG9HCdg5VJbYBoNy/etC88WjbEHhZqbRuBiiQSaSzZZroE"
+
+  build:
+    name: Build and publish image
+    needs: [test]
+    runs-on: ubuntu-latest
+    if: ${{ github.event == 'push' }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build and push
+        uses: docker/build-push-action@v1.1.0
+        with:
+          username: ilkka
+          password: ${{ secrets.DOCKER_REGISTRY_TOKEN }}
+          registry: docker.pkg.github.com
+          repository: ilkka/nisse/nisse
+          tag_with_ref: true
+          tag_with_sha: false
+          target: deploy
+          add_git_labels: true
+          push: true
