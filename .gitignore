@@ -36,3 +36,4 @@ npm-debug.log
 # Config files
 .env
 .env.test
+/.log/
