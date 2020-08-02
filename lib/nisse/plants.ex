@@ -420,4 +420,100 @@ defmodule Nisse.Plants do
   def temperatures() do
     Repo.query!("SELECT enum_range(NULL::temperature)").rows |> Enum.at(0) |> Enum.at(0)
   end
+
+  alias Nisse.Plants.PlantEvent
+
+  @doc """
+  Returns the list of plant_events.
+
+  ## Examples
+
+      iex> list_plant_events()
+      [%PlantEvent{}, ...]
+
+  """
+  def list_plant_events do
+    Repo.all(PlantEvent)
+  end
+
+  @doc """
+  Gets a single plant_event.
+
+  Raises `Ecto.NoResultsError` if the Plant event does not exist.
+
+  ## Examples
+
+      iex> get_plant_event!(123)
+      %PlantEvent{}
+
+      iex> get_plant_event!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_plant_event!(id), do: Repo.get!(PlantEvent, id)
+
+  @doc """
+  Creates a plant_event.
+
+  ## Examples
+
+      iex> create_plant_event(%{field: value})
+      {:ok, %PlantEvent{}}
+
+      iex> create_plant_event(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_plant_event(attrs \\ %{}) do
+    %PlantEvent{}
+    |> PlantEvent.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a plant_event.
+
+  ## Examples
+
+      iex> update_plant_event(plant_event, %{field: new_value})
+      {:ok, %PlantEvent{}}
+
+      iex> update_plant_event(plant_event, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_plant_event(%PlantEvent{} = plant_event, attrs) do
+    plant_event
+    |> PlantEvent.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a plant_event.
+
+  ## Examples
+
+      iex> delete_plant_event(plant_event)
+      {:ok, %PlantEvent{}}
+
+      iex> delete_plant_event(plant_event)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_plant_event(%PlantEvent{} = plant_event) do
+    Repo.delete(plant_event)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking plant_event changes.
+
+  ## Examples
+
+      iex> change_plant_event(plant_event)
+      %Ecto.Changeset{data: %PlantEvent{}}
+
+  """
+  def change_plant_event(%PlantEvent{} = plant_event, attrs \\ %{}) do
+    PlantEvent.changeset(plant_event, attrs)
+  end
 end

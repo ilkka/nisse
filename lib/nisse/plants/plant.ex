@@ -7,6 +7,7 @@ defmodule Nisse.Plants.Plant do
     field :name, :string
     belongs_to :species, Nisse.Plants.PlantSpecies, foreign_key: :species_id
     belongs_to :spot, Nisse.Plants.Spot
+    has_many :events, Nisse.Plants.PlantEvent
     timestamps()
   end
 

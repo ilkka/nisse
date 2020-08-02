@@ -87,6 +87,7 @@ namespace Nisse.Plants {
     TRIM
     FERTILIZE
     MOVE
+    NOTE
   }
 
   PlantEvent "*" *--> "+type 1" PlantEventType

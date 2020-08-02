@@ -144,77 +144,6 @@ defmodule Nisse.PlantsTest do
     end
   end
 
-  describe "spots" do
-    alias Nisse.Plants.Spot
-
-    @valid_attrs %{label: "some label"}
-    @update_attrs %{label: "some updated label"}
-    @invalid_attrs %{label: nil}
-
-    def spot_fixture(attrs \\ %{}) do
-      {:ok, room} = Plants.create_room(%{label: "test room"})
-
-      {:ok, spot} =
-        attrs
-        |> Enum.into(@valid_attrs)
-        |> Enum.into(%{room_id: room.id})
-        |> Plants.create_spot()
-
-      spot
-    end
-
-    test "list_spots/0 returns all spots" do
-      spot = spot_fixture()
-      spots_from_db = Plants.list_spots()
-
-      assert Enum.all?(spots_from_db, fn s ->
-               Enum.any?([spot], fn t -> s.id == t.id && s.label == t.label end)
-             end)
-    end
-
-    test "get_spot!/1 returns the spot with given id" do
-      spot = spot_fixture()
-      spot_from_db = Plants.get_spot!(spot.id)
-      assert spot_from_db.id == spot.id
-      assert spot_from_db.label == spot.label
-    end
-
-    test "create_spot/1 with valid data creates a spot" do
-      {:ok, room} = Plants.create_room(%{label: "test room"})
-
-      assert {:ok, %Spot{} = spot} =
-               Plants.create_spot(Enum.into(@valid_attrs, %{room_id: room.id}))
-
-      assert spot.label == "some label"
-    end
-
-    test "create_spot/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Plants.create_spot(@invalid_attrs)
-    end
-
-    test "update_spot/2 with valid data updates the spot" do
-      spot = spot_fixture()
-      assert {:ok, %Spot{} = spot} = Plants.update_spot(spot, @update_attrs)
-      assert spot.label == "some updated label"
-    end
-
-    test "update_spot/2 with invalid data returns error changeset" do
-      spot = spot_fixture()
-      assert {:error, %Ecto.Changeset{}} = Plants.update_spot(spot, @invalid_attrs)
-    end
-
-    test "delete_spot/1 deletes the spot" do
-      spot = spot_fixture()
-      assert {:ok, %Spot{}} = Plants.delete_spot(spot)
-      assert_raise Ecto.NoResultsError, fn -> Plants.get_spot!(spot.id) end
-    end
-
-    test "change_spot/1 returns a spot changeset" do
-      spot = spot_fixture()
-      assert %Ecto.Changeset{} = Plants.change_spot(spot)
-    end
-  end
-
   describe "rooms" do
     alias Nisse.Plants.Room
 
@@ -291,6 +220,145 @@ defmodule Nisse.PlantsTest do
 
       room = Plants.get_room!(room.id)
       assert Plants.room_has_plants?(room), "Has plants after adding plants"
+    end
+  end
+
+  describe "spots" do
+    alias Nisse.Plants.Spot
+
+    @valid_attrs %{label: "some label"}
+    @update_attrs %{label: "some updated label"}
+    @invalid_attrs %{label: nil}
+
+    def spot_fixture(attrs \\ %{}) do
+      room = room_fixture()
+
+      {:ok, spot} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Enum.into(%{room_id: room.id})
+        |> Plants.create_spot()
+
+      spot
+    end
+
+    test "list_spots/0 returns all spots" do
+      spot = spot_fixture()
+      spots_from_db = Plants.list_spots()
+
+      assert Enum.all?(spots_from_db, fn s ->
+               Enum.any?([spot], fn t -> s.id == t.id && s.label == t.label end)
+             end)
+    end
+
+    test "get_spot!/1 returns the spot with given id" do
+      spot = spot_fixture()
+      spot_from_db = Plants.get_spot!(spot.id)
+      assert spot_from_db.id == spot.id
+      assert spot_from_db.label == spot.label
+    end
+
+    test "create_spot/1 with valid data creates a spot" do
+      room = room_fixture()
+
+      assert {:ok, %Spot{} = spot} =
+               Plants.create_spot(Enum.into(@valid_attrs, %{room_id: room.id}))
+
+      assert spot.label == "some label"
+    end
+
+    test "create_spot/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Plants.create_spot(@invalid_attrs)
+      room = room_fixture()
+      assert {:error, %Ecto.Changeset{}} = Plants.create_spot(Enum.into(@invalid_attrs, %{room_id: room.id}))
+    end
+
+    test "update_spot/2 with valid data updates the spot" do
+      spot = spot_fixture()
+      assert {:ok, %Spot{} = spot} = Plants.update_spot(spot, @update_attrs)
+      assert spot.label == "some updated label"
+    end
+
+    test "update_spot/2 with invalid data returns error changeset" do
+      spot = spot_fixture()
+      assert {:error, %Ecto.Changeset{}} = Plants.update_spot(spot, @invalid_attrs)
+    end
+
+    test "delete_spot/1 deletes the spot" do
+      spot = spot_fixture()
+      assert {:ok, %Spot{}} = Plants.delete_spot(spot)
+      assert_raise Ecto.NoResultsError, fn -> Plants.get_spot!(spot.id) end
+    end
+
+    test "change_spot/1 returns a spot changeset" do
+      spot = spot_fixture()
+      assert %Ecto.Changeset{} = Plants.change_spot(spot)
+    end
+  end
+
+  describe "plant_events" do
+    alias Nisse.Plants.PlantEvent
+
+    @valid_attrs %{note: "some note", type: "observation"}
+    @update_attrs %{note: "some updated note", type: "water"}
+    @invalid_attrs %{note: nil}
+
+    def plant_event_fixture(attrs \\ %{}) do
+      plant = plant_fixture()
+
+      {:ok, plant_event} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Enum.into(%{plant_id: plant.id})
+        |> Plants.create_plant_event()
+
+      plant_event
+    end
+
+    test "list_plant_events/0 returns all plant_events" do
+      plant_event = plant_event_fixture()
+      assert Plants.list_plant_events() == [plant_event]
+    end
+
+    test "get_plant_event!/1 returns the plant_event with given id" do
+      plant_event = plant_event_fixture()
+      assert Plants.get_plant_event!(plant_event.id) == plant_event
+    end
+
+    test "create_plant_event/1 with valid data creates a plant_event" do
+      plant = plant_fixture()
+      assert {:ok, %PlantEvent{} = plant_event} = Plants.create_plant_event(@valid_attrs |> Enum.into(%{plant_id: plant.id}))
+      assert plant_event.note == "some note"
+    end
+
+    test "create_plant_event/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Plants.create_plant_event(@invalid_attrs)
+
+      plant = plant_fixture()
+      assert {:error, %Ecto.Changeset{}} = Plants.create_plant_event(@invalid_attrs |> Enum.into(%{plant_id: plant.id}))
+    end
+
+    test "update_plant_event/2 with valid data updates the plant_event" do
+      plant_event = plant_event_fixture()
+      assert {:ok, %PlantEvent{} = plant_event} = Plants.update_plant_event(plant_event, @update_attrs)
+      assert plant_event.note == "some updated note"
+    end
+
+    test "update_plant_event/2 with invalid data returns error changeset" do
+      plant_event = plant_event_fixture()
+      assert {:error, %Ecto.Changeset{}} = Plants.update_plant_event(plant_event, @invalid_attrs)
+      assert plant_event == Plants.get_plant_event!(plant_event.id)
+    end
+
+    test "delete_plant_event/1 deletes the plant_event" do
+      plant_event = plant_event_fixture()
+      assert {:ok, %PlantEvent{}} = Plants.delete_plant_event(plant_event)
+      assert_raise Ecto.NoResultsError, fn -> Plants.get_plant_event!(plant_event.id) end
+    end
+
+    test "change_plant_event/1 returns a plant_event changeset" do
+      plant_event = plant_event_fixture()
+      assert %Ecto.Changeset{} = Plants.change_plant_event(plant_event)
     end
   end
 end
