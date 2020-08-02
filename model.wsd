@@ -37,7 +37,7 @@ namespace Nisse.Plants {
   class Room {
     +string label
   }
-  
+
   Enum LightDirection {
     N
     NE
