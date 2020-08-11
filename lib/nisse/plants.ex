@@ -457,63 +457,27 @@ defmodule Nisse.Plants do
 
   ## Examples
 
-      iex> create_plant_event(%{field: value})
+      iex> create_plant_event(my_plant.id, :water, "watered my plant")
       {:ok, %PlantEvent{}}
 
-      iex> create_plant_event(%{field: bad_value})
+      iex> create_plant_event(-123, :not_exist)
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_plant_event(attrs \\ %{}) do
+  def create_plant_event(type, id, note \\ nil) when is_atom(type) do
     %PlantEvent{}
-    |> PlantEvent.changeset(attrs)
+    |> PlantEvent.changeset(%{plant_id: id, note: note, type: Atom.to_string(type)})
     |> Repo.insert()
   end
 
-  @doc """
-  Updates a plant_event.
-
-  ## Examples
-
-      iex> update_plant_event(plant_event, %{field: new_value})
-      {:ok, %PlantEvent{}}
-
-      iex> update_plant_event(plant_event, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def update_plant_event(%PlantEvent{} = plant_event, attrs) do
-    plant_event
-    |> PlantEvent.changeset(attrs)
-    |> Repo.update()
-  end
-
-  @doc """
-  Deletes a plant_event.
-
-  ## Examples
-
-      iex> delete_plant_event(plant_event)
-      {:ok, %PlantEvent{}}
-
-      iex> delete_plant_event(plant_event)
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def delete_plant_event(%PlantEvent{} = plant_event) do
-    Repo.delete(plant_event)
-  end
-
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking plant_event changes.
-
-  ## Examples
-
-      iex> change_plant_event(plant_event)
-      %Ecto.Changeset{data: %PlantEvent{}}
-
-  """
-  def change_plant_event(%PlantEvent{} = plant_event, attrs \\ %{}) do
-    PlantEvent.changeset(plant_event, attrs)
+  def last_watered(id) do
+    case PlantEvent
+         |> where(plant_id: ^id)
+         |> where(type: "water")
+         |> last(:inserted_at)
+         |> Repo.one() do
+      %PlantEvent{inserted_at: inserted_at} -> inserted_at
+      _ -> nil
+    end
   end
 end

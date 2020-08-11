@@ -5,7 +5,7 @@ defmodule Nisse.Repo do
 
   def init(_type, config) do
     providers = [
-      %Vapor.Provider.Dotenv{},
+      %Vapor.Provider.Dotenv{overwrite: true},
       %Vapor.Provider.Env{
         bindings: [
           {:url, "DB_URL"},

@@ -8,7 +8,7 @@ defmodule Nisse.Application do
   def start(_type, _args) do
     config =
       Vapor.load!([
-        %Vapor.Provider.Dotenv{},
+        %Vapor.Provider.Dotenv{overwrite: true},
         %Vapor.Provider.Env{
           bindings: [
             {:port, "PORT", default: 4000, map: &String.to_integer/1},

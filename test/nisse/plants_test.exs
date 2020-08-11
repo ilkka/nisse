@@ -270,7 +270,9 @@ defmodule Nisse.PlantsTest do
     test "create_spot/1 with invalid data returns error changeset" do
       assert {:error, %Ecto.Changeset{}} = Plants.create_spot(@invalid_attrs)
       room = room_fixture()
-      assert {:error, %Ecto.Changeset{}} = Plants.create_spot(Enum.into(@invalid_attrs, %{room_id: room.id}))
+
+      assert {:error, %Ecto.Changeset{}} =
+               Plants.create_spot(Enum.into(@invalid_attrs, %{room_id: room.id}))
     end
 
     test "update_spot/2 with valid data updates the spot" do
@@ -299,18 +301,10 @@ defmodule Nisse.PlantsTest do
   describe "plant_events" do
     alias Nisse.Plants.PlantEvent
 
-    @valid_attrs %{note: "some note", type: "observation"}
-    @update_attrs %{note: "some updated note", type: "water"}
-    @invalid_attrs %{note: nil}
-
-    def plant_event_fixture(attrs \\ %{}) do
+    def plant_event_fixture() do
       plant = plant_fixture()
 
-      {:ok, plant_event} =
-        attrs
-        |> Enum.into(@valid_attrs)
-        |> Enum.into(%{plant_id: plant.id})
-        |> Plants.create_plant_event()
+      {:ok, plant_event} = Plants.create_plant_event(:observation, plant.id, "some note")
 
       plant_event
     end
@@ -325,40 +319,14 @@ defmodule Nisse.PlantsTest do
       assert Plants.get_plant_event!(plant_event.id) == plant_event
     end
 
-    test "create_plant_event/1 with valid data creates a plant_event" do
+    test "last_watered/1 gives the timestamp of the last water event" do
       plant = plant_fixture()
-      assert {:ok, %PlantEvent{} = plant_event} = Plants.create_plant_event(@valid_attrs |> Enum.into(%{plant_id: plant.id}))
-      assert plant_event.note == "some note"
-    end
+      assert nil == Plants.last_watered(plant.id)
 
-    test "create_plant_event/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Plants.create_plant_event(@invalid_attrs)
+      assert {:ok, %PlantEvent{} = plant_event} =
+               Plants.create_plant_event(:water, plant.id, "This is my note")
 
-      plant = plant_fixture()
-      assert {:error, %Ecto.Changeset{}} = Plants.create_plant_event(@invalid_attrs |> Enum.into(%{plant_id: plant.id}))
-    end
-
-    test "update_plant_event/2 with valid data updates the plant_event" do
-      plant_event = plant_event_fixture()
-      assert {:ok, %PlantEvent{} = plant_event} = Plants.update_plant_event(plant_event, @update_attrs)
-      assert plant_event.note == "some updated note"
-    end
-
-    test "update_plant_event/2 with invalid data returns error changeset" do
-      plant_event = plant_event_fixture()
-      assert {:error, %Ecto.Changeset{}} = Plants.update_plant_event(plant_event, @invalid_attrs)
-      assert plant_event == Plants.get_plant_event!(plant_event.id)
-    end
-
-    test "delete_plant_event/1 deletes the plant_event" do
-      plant_event = plant_event_fixture()
-      assert {:ok, %PlantEvent{}} = Plants.delete_plant_event(plant_event)
-      assert_raise Ecto.NoResultsError, fn -> Plants.get_plant_event!(plant_event.id) end
-    end
-
-    test "change_plant_event/1 returns a plant_event changeset" do
-      plant_event = plant_event_fixture()
-      assert %Ecto.Changeset{} = Plants.change_plant_event(plant_event)
+      assert plant_event.inserted_at == Plants.last_watered(plant.id)
     end
   end
 end
