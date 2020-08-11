@@ -457,16 +457,27 @@ defmodule Nisse.Plants do
 
   ## Examples
 
-      iex> create_plant_event(%{field: value})
+      iex> create_plant_event(my_plant.id, :water, "watered my plant")
       {:ok, %PlantEvent{}}
 
-      iex> create_plant_event(%{field: bad_value})
+      iex> create_plant_event(-123, :not_exist)
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_plant_event(attrs \\ %{}) do
+  def create_plant_event(type, id, note \\ nil) when is_atom(type) do
     %PlantEvent{}
-    |> PlantEvent.changeset(attrs)
+    |> PlantEvent.changeset(%{plant_id: id, note: note, type: Atom.to_string(type)})
     |> Repo.insert()
+  end
+
+  def last_watered(id) do
+    case PlantEvent
+         |> where(plant_id: ^id)
+         |> where(type: "water")
+         |> last(:inserted_at)
+         |> Repo.one() do
+      %PlantEvent{inserted_at: inserted_at} -> inserted_at
+      _ -> nil
+    end
   end
 end
