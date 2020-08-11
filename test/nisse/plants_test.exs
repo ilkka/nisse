@@ -338,27 +338,5 @@ defmodule Nisse.PlantsTest do
       assert {:error, %Ecto.Changeset{}} = Plants.create_plant_event(@invalid_attrs |> Enum.into(%{plant_id: plant.id}))
     end
 
-    test "update_plant_event/2 with valid data updates the plant_event" do
-      plant_event = plant_event_fixture()
-      assert {:ok, %PlantEvent{} = plant_event} = Plants.update_plant_event(plant_event, @update_attrs)
-      assert plant_event.note == "some updated note"
-    end
-
-    test "update_plant_event/2 with invalid data returns error changeset" do
-      plant_event = plant_event_fixture()
-      assert {:error, %Ecto.Changeset{}} = Plants.update_plant_event(plant_event, @invalid_attrs)
-      assert plant_event == Plants.get_plant_event!(plant_event.id)
-    end
-
-    test "delete_plant_event/1 deletes the plant_event" do
-      plant_event = plant_event_fixture()
-      assert {:ok, %PlantEvent{}} = Plants.delete_plant_event(plant_event)
-      assert_raise Ecto.NoResultsError, fn -> Plants.get_plant_event!(plant_event.id) end
-    end
-
-    test "change_plant_event/1 returns a plant_event changeset" do
-      plant_event = plant_event_fixture()
-      assert %Ecto.Changeset{} = Plants.change_plant_event(plant_event)
-    end
   end
 end
