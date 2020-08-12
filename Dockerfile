@@ -78,7 +78,7 @@ RUN mix release
 ## **********************************************************************
 ## Run release in production mode
 ## **********************************************************************
-FROM elixir:${ELIXIR_VERSION}-slim as deploy
+FROM debian:buster-20200803-slim as deploy
 LABEL maintainer="Ilkka Poutanen <ilkka@ilkka.dev>"
 ARG USERNAME
 ARG USER_UID
