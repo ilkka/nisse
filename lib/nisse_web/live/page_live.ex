@@ -1,6 +1,7 @@
 defmodule NisseWeb.PageLive do
   use NisseWeb, :live_view
   alias Nisse.Plants
+  alias NisseWeb.PlantStatus
 
   @impl true
   def mount(_params, _session, socket) do

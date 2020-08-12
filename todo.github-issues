@@ -2,11 +2,13 @@
   {
     "kind": 1,
     "language": "markdown",
-    "value": "# To do\r\n\r\nHere's the things still need doing:"
+    "value": "# To do\r\n\r\nHere's the things still need doing:",
+    "editable": true
   },
   {
     "kind": 2,
     "language": "github-issues",
-    "value": "$repo = repo:ilkka/nisse\r\n$repo is:open"
+    "value": "$repo = repo:ilkka/nisse\n$repo is:open",
+    "editable": true
   }
 ]

@@ -13,10 +13,7 @@
     <h2><%= room.label %></h2>
     <%= for spot <- room.spots do %>
     <%= for plant <- spot.plants do %>
-    <div>
-      <h3><%= plant.name %></h3>
-      <p>A <span><%= plant.species.name %> (<%= plant.species.common_name %>)</span>, location <span><%= spot.label %></span>, last watered <span>NN days ago</span>.</p>
-    </div>
+    <%= live_component @socket, PlantStatus, id: plant.id, plant: plant, spot: spot %>
     <% end %>
     <% end %>
   </div>

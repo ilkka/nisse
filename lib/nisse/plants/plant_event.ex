@@ -13,7 +13,10 @@ defmodule Nisse.Plants.PlantEvent do
   def changeset(plant_event, attrs) do
     plant_event
     |> cast(attrs, [:note, :type, :plant_id])
-    |> validate_required([:note, :type, :plant_id])
-    |> validate_inclusion(:type, ~w(water spray wipe water_tank pot trim fertilize move observation))
+    |> validate_required([:type, :plant_id])
+    |> validate_inclusion(
+      :type,
+      ~w(water spray wipe water_tank pot trim fertilize move observation)
+    )
   end
 end

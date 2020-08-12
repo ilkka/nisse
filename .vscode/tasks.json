@@ -8,15 +8,19 @@
       "type": "shell",
       "command": "mix compile",
       "problemMatcher": ["$mixCompileWarning", "$mixCompileError"],
-      "group": {
-        "kind": "build",
-        "isDefault": true
-      }
+      "group": "build"
     },
     {
       "label": "mix phx.server",
       "type": "shell",
       "command": "mix phx.server",
+      "problemMatcher": ["$mixCompileWarning", "$mixCompileError"],
+      "group": "build"
+    },
+    {
+      "label": "iex -S mix phx.server",
+      "type": "shell",
+      "command": "iex -S mix phx.server",
       "problemMatcher": ["$mixCompileWarning", "$mixCompileError"],
       "group": "build"
     },
