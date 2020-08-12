@@ -51,12 +51,8 @@ COPY --chown=${USER_UID}:${USER_GID} . ./
 ## **********************************************************************
 FROM base as develop
 RUN apt-get update \
-  && apt-get install -y tig httpie neovim less locales inotify-tools \
-  && echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen \
-  && echo "LC_ALL=en_US.UTF-8" >> /etc/environment \
-  && echo "LANG=en_US.UTF-8" >> /etc/environment \
-  && locale-gen en_US.UTF-8
-
+  && apt-get install -y tig httpie neovim less inotify-tools
+ENV LC_ALL=C.UTF-8 LANG=C.UTF-8
 CMD ["mix", "phx.server"]
 
 
@@ -92,4 +88,5 @@ RUN groupadd --gid $USER_GID $USERNAME \
 WORKDIR /app
 COPY --from=release --chown=nisse /app/_build/prod/rel ./
 USER $USERNAME
+ENV LC_ALL=C.UTF-8 LANG=C.UTF-8
 CMD ["/app/nisse/bin/nisse", "start"]
