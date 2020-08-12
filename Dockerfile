@@ -80,6 +80,10 @@ RUN mix release
 ## **********************************************************************
 FROM debian:buster-20200803-slim as deploy
 LABEL maintainer="Ilkka Poutanen <ilkka@ilkka.dev>"
+RUN apt-get update \
+  && export DEBIAN_FRONTEND=noninteractive \
+  && apt-get install -y libssl1.1 \
+  && rm -rf /var/lib/apt/lists/*
 ARG USERNAME
 ARG USER_UID
 ARG USER_GID
