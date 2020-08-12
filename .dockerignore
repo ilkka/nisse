@@ -8,3 +8,4 @@ deps
 .elixir_ls
 .env
 .env.test
+assets/node_modules
