@@ -12,8 +12,6 @@ ARG ELIXIR_VERSION=1.10.3
 FROM elixir:${ELIXIR_VERSION} as base
 LABEL maintainer="Ilkka Poutanen <ilkka@ilkka.dev>"
 
-ENV MIX_ENV=prod
-
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - \
   && apt-get update \
   && apt-get install -y \
@@ -66,6 +64,7 @@ CMD ["mix", "phx.server"]
 ## Build sources from base stage
 ## **********************************************************************
 FROM base as build
+ENV MIX_ENV=prod
 RUN mix compile
 
 
