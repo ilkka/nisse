@@ -11,6 +11,7 @@ ARG ELIXIR_VERSION=1.10.3
 ## **********************************************************************
 FROM elixir:${ELIXIR_VERSION} as base
 LABEL maintainer="Ilkka Poutanen <ilkka@ilkka.dev>"
+ENV LC_ALL=C.UTF-8 LANG=C.UTF-8
 
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - \
   && apt-get update \
@@ -52,7 +53,7 @@ COPY --chown=${USER_UID}:${USER_GID} . ./
 FROM base as develop
 RUN apt-get update \
   && apt-get install -y tig httpie neovim less inotify-tools
-ENV LC_ALL=C.UTF-8 LANG=C.UTF-8
+RUN npm install --prefix ./assets
 CMD ["mix", "phx.server"]
 
 
