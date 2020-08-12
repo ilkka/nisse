@@ -85,7 +85,7 @@ ARG USER_UID
 ARG USER_GID
 RUN groupadd --gid $USER_GID $USERNAME \
   && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME
-USER $USERNAME
 WORKDIR /app
-COPY --from=release /app/_build/prod/rel ./
+COPY --from=release --chown=nisse /app/_build/prod/rel ./
+USER $USERNAME
 CMD ["/app/nisse/bin/nisse", "start"]
