@@ -51,7 +51,7 @@ COPY --chown=${USER_UID}:${USER_GID} . ./
 ## **********************************************************************
 FROM base as develop
 RUN apt-get update \
-  && apt-get install -y tig httpie neovim less locales \
+  && apt-get install -y tig httpie neovim less locales inotify-tools \
   && echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen \
   && echo "LC_ALL=en_US.UTF-8" >> /etc/environment \
   && echo "LANG=en_US.UTF-8" >> /etc/environment \
