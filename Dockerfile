@@ -26,25 +26,13 @@ ARG USER_GID
 
 ARG WORKDIR=/app
 
-# Create the user
-RUN groupadd --gid $USER_GID $USERNAME \
-  && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME \
-  # Make user a sudoer
-  && apt-get update \
-  && apt-get install -y sudo \
-  && echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
-  && chmod 0440 /etc/sudoers.d/$USERNAME \
-  # Make user own the workdir
-  && mkdir -p $WORKDIR \
-  && chown $USER_UID:$USER_GID $WORKDIR
-
 RUN mix local.hex --force \
   && mix local.rebar --force
 
 WORKDIR /app
-COPY --chown=${USER_UID}:${USER_GID} mix.exs mix.lock ./
+COPY mix.exs mix.lock ./
 RUN mix do deps.get, deps.compile
-COPY --chown=${USER_UID}:${USER_GID} . ./
+COPY . ./
 
 
 ## **********************************************************************
