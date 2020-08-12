@@ -61,7 +61,9 @@ CMD ["mix", "phx.server"]
 ## **********************************************************************
 FROM base as build
 ENV MIX_ENV=prod
-RUN mix compile && mix phx.digest
+RUN npm ci --prefix ./assets \
+  && npm run deploy --prefix ./assets \
+  && mix do deps.compile, phx.digest, compile
 
 
 ## **********************************************************************
