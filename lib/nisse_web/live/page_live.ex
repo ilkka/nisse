@@ -1,6 +1,7 @@
 defmodule NisseWeb.PageLive do
   use NisseWeb, :live_view
   alias Nisse.Plants
+  alias Nisse.Times
 
   @impl true
   def mount(_params, _session, socket) do
@@ -40,5 +41,12 @@ defmodule NisseWeb.PageLive do
 
   defp get_rooms do
     Plants.list_rooms()
+  end
+
+  defp last_watered(plant) do
+    case Plants.last_watered(plant.id) do
+      nil -> "never"
+      timestamp -> Times.format_relative!(timestamp)
+    end
   end
 end
