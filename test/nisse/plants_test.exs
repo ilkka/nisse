@@ -319,6 +319,16 @@ defmodule Nisse.PlantsTest do
       assert Plants.get_plant_event!(plant_event.id) == plant_event
     end
 
+    test "create_plant_event/3 creates plant events with a note" do
+      plant = plant_fixture()
+      assert {:ok, %PlantEvent{}} = Plants.create_plant_event(:observation, plant.id, "a note")
+    end
+
+    test "create_plant_event/2 creates plant events without a note" do
+      plant = plant_fixture()
+      assert {:ok, %PlantEvent{}} = Plants.create_plant_event(:observation, plant.id)
+    end
+
     test "last_watered/1 gives the timestamp of the last water event" do
       plant = plant_fixture()
       assert nil == Plants.last_watered(plant.id)
