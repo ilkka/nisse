@@ -27,7 +27,8 @@
 	"ms-azuretools.vscode-docker",
 	"ms-ossdata.vscode-postgresql",
 	"pgourlain.erlang",
-	"oderwat.indent-rainbow"
+	"oderwat.indent-rainbow",
+	"jebbs.plantuml"
 ],
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
   "forwardPorts": [4000],
