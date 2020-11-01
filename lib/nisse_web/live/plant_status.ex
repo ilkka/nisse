@@ -2,13 +2,17 @@ defmodule NisseWeb.PlantStatus do
   use NisseWeb, :live_component
   alias Nisse.Plants
   alias Nisse.Times
+  alias Nisse.Plants.{Plant, Pot}
 
   @impl true
   def update(assigns, socket) do
+    {water_event, water_label} = water_type(assigns.plant)
     {:ok,
      socket
      |> assign(assigns)
-     |> assign(:last_watered, last_watered(assigns.plant))}
+     |> assign(:last_watered, last_watered(assigns.plant))
+     |> assign(:water_event, water_event)
+    |> assign(:water_label, water_label)}
   end
 
   @impl true
@@ -22,7 +26,9 @@ defmodule NisseWeb.PlantStatus do
         last watered <span><%= @last_watered %></span>.
       </p>
       <div>
-        <button phx-click="water" phx-value-id="<%= @plant.id %>" phx-target="<%= @myself %>">Water</button>
+        <button phx-click="<%= @water_event %>" phx-value-id="<%= @plant.id %>" phx-target="<%= @myself %>"><%= @water_label %></button>
+        <button phx-click="spray" phx-value-id="<%= @plant.id %>" phx-target="<%= @myself %>">Spray</button>
+        <button phx-click="wipe" phx-value-id="<%= @plant.id %>" phx-target="<%= @myself %>">Wipe leaves</button>
       </div>
     </div>
     """
@@ -34,10 +40,22 @@ defmodule NisseWeb.PlantStatus do
     {:noreply, assign(socket, :last_watered, Times.format_relative!(event.inserted_at))}
   end
 
-  defp last_watered(plant) do
+  defp last_watered(%Plant{} = plant) do
     case Plants.last_watered(plant.id) do
       nil -> "never"
       timestamp -> Times.format_relative!(timestamp)
     end
+  end
+
+  defp water_type(%Plant{pot: %Pot{type: "normal"}}) do
+    {"water", "Water"}
+  end
+
+  defp water_type(%Plant{pot: %Pot{type: "self_watering"}}) do
+    {"water_tank", "Fill tank"}
+  end
+
+  defp water_type(%Plant{}) do
+    {"water", "Water"}
   end
 end
