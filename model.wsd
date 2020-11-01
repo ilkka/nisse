@@ -1,4 +1,4 @@
-@startuml
+@startuml Nisse plants model
 namespace Nisse.Plants {
   class Plant {
     +string name
@@ -93,5 +93,17 @@ namespace Nisse.Plants {
   PlantEvent "*" *--> "+type 1" PlantEventType
 
   PlantEvent "+events *" *-- "+subject 1" Plant
+
+  class Pot {
+    +string label
+  }
+
+  Pot "*" *--> "+type 1" PotType
+  Plant "+pot 1" *--> "+plant 1" Pot
+
+  enum PotType {
+    NORMAL
+    SELF_WATERING
+  }
 }
 @enduml
