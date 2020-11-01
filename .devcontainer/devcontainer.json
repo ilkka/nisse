@@ -18,17 +18,17 @@
   },
   // Add the IDs of extensions you want installed when the container is created.
   "extensions": [
-    "benvp.vscode-hex-pm-intellisense",
-    "cschleiden.vscode-github-actions",
-    "dbaeumer.vscode-eslint",
-    "esbenp.prettier-vscode",
-    "github.vscode-pull-request-github",
-    "iampeterbanjo.elixirlinter",
-    "jakebecker.elixir-ls",
-    "ms-azuretools.vscode-docker",
-    "ms-ossdata.vscode-postgresql",
-    "pgourlain.erlang"
-  ],
+	"benvp.vscode-hex-pm-intellisense",
+	"dbaeumer.vscode-eslint",
+	"esbenp.prettier-vscode",
+	"github.vscode-pull-request-github",
+	"iampeterbanjo.elixirlinter",
+	"jakebecker.elixir-ls",
+	"ms-azuretools.vscode-docker",
+	"ms-ossdata.vscode-postgresql",
+	"pgourlain.erlang",
+	"oderwat.indent-rainbow"
+],
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
   "forwardPorts": [4000],
   // Uncomment the next line if you want start specific services in your Docker Compose config.
