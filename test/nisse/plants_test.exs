@@ -343,7 +343,7 @@ defmodule Nisse.PlantsTest do
   describe "pots" do
     alias Nisse.Plants.Pot
 
-    @valid_attrs %{label: "some label"}
+    @valid_attrs %{label: "some label", type: "normal"}
     @update_attrs %{label: "some updated label"}
     @invalid_attrs %{label: nil}
 
