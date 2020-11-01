@@ -43,6 +43,15 @@
       "type": "shell",
       "command": "mix ecto.setup",
       "problemMatcher": ["$mixCompileWarning", "$mixCompileError"]
+    },
+    {
+      "label": "mix ecto.migrate",
+      "type": "shell",
+      "command": "mix ecto.migrate",
+      "problemMatcher": [
+        "$mixCompileWarning",
+        "$mixCompileError"
+      ]
     }
   ]
 }
