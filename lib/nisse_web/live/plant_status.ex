@@ -40,6 +40,12 @@ defmodule NisseWeb.PlantStatus do
     {:noreply, assign(socket, :last_watered, Times.format_relative!(event.inserted_at))}
   end
 
+  @impl true
+  def handle_event("water_tank", %{"id" => plant_id}, socket) do
+    {:ok, event} = Plants.create_plant_event(:water_tank, plant_id)
+    {:noreply, assign(socket, :last_watered, Times.format_relative!(event.inserted_at))}
+  end
+
   defp last_watered(%Plant{} = plant) do
     case Plants.last_watered(plant.id) do
       nil -> "never"
