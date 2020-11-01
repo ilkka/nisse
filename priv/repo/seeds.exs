@@ -9,6 +9,13 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
+valkoinen =
+  Nisse.Repo.insert!(%Nisse.Plants.Pot{label: "Valkoinen keraaminen aluslautasellinen", type: "normal"})
+musta =
+  Nisse.Repo.insert!(%Nisse.Plants.Pot{label: "Musta keraaminen", type: "normal"})
+altakastelu =
+  Nisse.Repo.insert!(%Nisse.Plants.Pot{label: "Iso altakastelu", type: "self_watering"})
+
 viirivehka =
   Nisse.Repo.insert!(%Nisse.Plants.PlantSpecies{
     name: "Spathiphyllum cochlearispathum",
@@ -149,19 +156,22 @@ Nisse.Repo.insert!(%Nisse.Plants.Plant{
   name: "Viirivehka",
   acquired_on: ~D[2020-06-29],
   species_id: viirivehka.id,
-  spot_id: ikkuna.id
+  spot_id: ikkuna.id,
+  pot_id: altakastelu.id
 })
 
 Nisse.Repo.insert!(%Nisse.Plants.Plant{
   name: "Peikonlehti",
   acquired_on: ~D[2020-06-14],
   species_id: peikonlehti.id,
-  spot_id: komootti.id
+  spot_id: komootti.id,
+  pot_id: valkoinen.id
 })
 
 Nisse.Repo.insert!(%Nisse.Plants.Plant{
   name: "Kirjovehka",
   acquired_on: ~D[2020-06-28],
   species_id: kirjovehka.id,
-  spot_id: kaiutin.id
+  spot_id: kaiutin.id,
+  pot_id: musta.id
 })

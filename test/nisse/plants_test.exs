@@ -339,4 +339,63 @@ defmodule Nisse.PlantsTest do
       assert plant_event.inserted_at == Plants.last_watered(plant.id)
     end
   end
+
+  describe "pots" do
+    alias Nisse.Plants.Pot
+
+    @valid_attrs %{label: "some label"}
+    @update_attrs %{label: "some updated label"}
+    @invalid_attrs %{label: nil}
+
+    def pot_fixture(attrs \\ %{}) do
+      {:ok, pot} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Plants.create_pot()
+
+      pot
+    end
+
+    test "list_pots/0 returns all pots" do
+      pot = pot_fixture()
+      assert Plants.list_pots() == [pot]
+    end
+
+    test "get_pot!/1 returns the pot with given id" do
+      pot = pot_fixture()
+      assert Plants.get_pot!(pot.id) == pot
+    end
+
+    test "create_pot/1 with valid data creates a pot" do
+      assert {:ok, %Pot{} = pot} = Plants.create_pot(@valid_attrs)
+      assert pot.label == "some label"
+    end
+
+    test "create_pot/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Plants.create_pot(@invalid_attrs)
+    end
+
+    test "update_pot/2 with valid data updates the pot" do
+      pot = pot_fixture()
+      assert {:ok, %Pot{} = pot} = Plants.update_pot(pot, @update_attrs)
+      assert pot.label == "some updated label"
+    end
+
+    test "update_pot/2 with invalid data returns error changeset" do
+      pot = pot_fixture()
+      assert {:error, %Ecto.Changeset{}} = Plants.update_pot(pot, @invalid_attrs)
+      assert pot == Plants.get_pot!(pot.id)
+    end
+
+    test "delete_pot/1 deletes the pot" do
+      pot = pot_fixture()
+      assert {:ok, %Pot{}} = Plants.delete_pot(pot)
+      assert_raise Ecto.NoResultsError, fn -> Plants.get_pot!(pot.id) end
+    end
+
+    test "change_pot/1 returns a pot changeset" do
+      pot = pot_fixture()
+      assert %Ecto.Changeset{} = Plants.change_pot(pot)
+    end
+  end
 end

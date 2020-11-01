@@ -8,13 +8,14 @@ defmodule Nisse.Plants.Plant do
     belongs_to :species, Nisse.Plants.PlantSpecies, foreign_key: :species_id
     belongs_to :spot, Nisse.Plants.Spot
     has_many :events, Nisse.Plants.PlantEvent
+    belongs_to :pot, Nisse.Plants.Pot
     timestamps()
   end
 
   @doc false
   def changeset(plant, attrs) do
     plant
-    |> cast(attrs, [:name, :acquired_on, :species_id, :spot_id])
+    |> cast(attrs, [:name, :acquired_on, :species_id, :spot_id, :pot_id])
     |> validate_required([:name, :acquired_on])
   end
 end

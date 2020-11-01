@@ -480,4 +480,100 @@ defmodule Nisse.Plants do
       _ -> nil
     end
   end
+
+  alias Nisse.Plants.Pot
+
+  @doc """
+  Returns the list of pots.
+
+  ## Examples
+
+      iex> list_pots()
+      [%Pot{}, ...]
+
+  """
+  def list_pots do
+    Repo.all(Pot)
+  end
+
+  @doc """
+  Gets a single pot.
+
+  Raises `Ecto.NoResultsError` if the Pot does not exist.
+
+  ## Examples
+
+      iex> get_pot!(123)
+      %Pot{}
+
+      iex> get_pot!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_pot!(id), do: Repo.get!(Pot, id)
+
+  @doc """
+  Creates a pot.
+
+  ## Examples
+
+      iex> create_pot(%{field: value})
+      {:ok, %Pot{}}
+
+      iex> create_pot(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_pot(attrs \\ %{}) do
+    %Pot{}
+    |> Pot.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a pot.
+
+  ## Examples
+
+      iex> update_pot(pot, %{field: new_value})
+      {:ok, %Pot{}}
+
+      iex> update_pot(pot, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_pot(%Pot{} = pot, attrs) do
+    pot
+    |> Pot.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a pot.
+
+  ## Examples
+
+      iex> delete_pot(pot)
+      {:ok, %Pot{}}
+
+      iex> delete_pot(pot)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_pot(%Pot{} = pot) do
+    Repo.delete(pot)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking pot changes.
+
+  ## Examples
+
+      iex> change_pot(pot)
+      %Ecto.Changeset{data: %Pot{}}
+
+  """
+  def change_pot(%Pot{} = pot, attrs \\ %{}) do
+    Pot.changeset(pot, attrs)
+  end
 end
