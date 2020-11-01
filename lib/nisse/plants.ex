@@ -472,8 +472,9 @@ defmodule Nisse.Plants do
 
   def last_watered(id) do
     case PlantEvent
-         |> where(plant_id: ^id)
          |> where(type: "water")
+         |> or_where(type: "water_tank")
+         |> where(plant_id: ^id)
          |> last(:inserted_at)
          |> Repo.one() do
       %PlantEvent{inserted_at: inserted_at} -> inserted_at
