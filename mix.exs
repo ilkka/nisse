@@ -48,7 +48,8 @@ defmodule Nisse.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:vapor, "~> 0.8.0"},
-      {:timex, "~> 3.6.2"}
+      {:timex, "~> 3.6.2"},
+      {:credo, "~> 1.5", only: [:dev, :test], runtime: false}
     ]
   end
 
