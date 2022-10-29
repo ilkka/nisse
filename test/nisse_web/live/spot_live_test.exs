@@ -40,7 +40,7 @@ defmodule NisseWeb.SpotLiveTest do
 
       assert index_live
              |> form("#spot-form", spot: @invalid_attrs)
-             |> render_change() =~ "can&apos;t be blank"
+             |> render_change() =~ "can&#39;t be blank"
 
       {:ok, _, html} =
         index_live
@@ -62,7 +62,7 @@ defmodule NisseWeb.SpotLiveTest do
 
       assert index_live
              |> form("#spot-form", spot: @invalid_attrs)
-             |> render_change() =~ "can&apos;t be blank"
+             |> render_change() =~ "can&#39;t be blank"
 
       {:ok, _, html} =
         index_live
@@ -102,7 +102,7 @@ defmodule NisseWeb.SpotLiveTest do
 
       assert show_live
              |> form("#spot-form", spot: @invalid_attrs)
-             |> render_change() =~ "can&apos;t be blank"
+             |> render_change() =~ "can&#39;t be blank"
 
       {:ok, _, html} =
         show_live
