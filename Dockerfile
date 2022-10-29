@@ -12,10 +12,8 @@ ARG ELIXIR_VERSION=1.14.1
 FROM elixir:${ELIXIR_VERSION} as base
 LABEL maintainer="Ilkka Poutanen <ilkka@ilkka.dev>"
 
-RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - \
-  && apt-get update \
+RUN apt-get update \
   && apt-get install -y \
-  nodejs \
   postgresql-client \
   locales \
   zsh
@@ -48,7 +46,6 @@ COPY . ./
 FROM base as develop
 RUN apt-get update \
   && apt-get install -y tig httpie neovim less inotify-tools
-RUN npm install --prefix ./assets
 CMD ["mix", "phx.server"]
 
 
@@ -57,9 +54,7 @@ CMD ["mix", "phx.server"]
 ## **********************************************************************
 FROM base as build
 ENV MIX_ENV=prod
-RUN npm ci --prefix ./assets \
-  && npm run deploy --prefix ./assets \
-  && mix do deps.compile, phx.digest, compile
+RUN mix do deps.compile, phx.digest, compile
 
 
 ## **********************************************************************
