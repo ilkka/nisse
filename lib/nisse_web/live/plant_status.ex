@@ -1,4 +1,7 @@
 defmodule NisseWeb.PlantStatus do
+  @moduledoc """
+  A liveview component for showing the status of one plant and some basic controls.
+  """
   use NisseWeb, :live_component
   alias Nisse.Plants
   alias Nisse.Times
@@ -45,6 +48,12 @@ defmodule NisseWeb.PlantStatus do
   def handle_event("water_tank", %{"id" => plant_id}, socket) do
     {:ok, event} = Plants.create_plant_event(:water_tank, plant_id)
     {:noreply, assign(socket, :last_watered, Times.format_relative!(event.inserted_at))}
+  end
+
+  @impl true
+  def handle_event("wipe", %{"id" => plant_id}, socket) do
+    {:ok, event} = Plants.create_plant_event(:wipe, plant_id)
+    {:noreply, socket}
   end
 
   defp last_watered(%Plant{} = plant) do
