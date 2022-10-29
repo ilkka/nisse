@@ -1,10 +1,6 @@
 <h2><%= @title %></h2>
 
-<%= f = form_for @changeset, "#",
-  id: "plant-form",
-  phx_target: @myself,
-  phx_change: "validate",
-  phx_submit: "save" %>
+<.form let={f} for={@changeset} id="plant-form" phx-target={@myself} phx-change="validate" phx-submit="save">
 
   <%= label f, :name %>
   <%= text_input f, :name %>
@@ -23,4 +19,4 @@
   <%= error_tag f, :acquired_on %>
 
   <%= submit "Save", phx_disable_with: "Saving..." %>
-</form>
+</.form>
