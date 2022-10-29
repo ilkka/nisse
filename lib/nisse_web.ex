@@ -47,7 +47,7 @@ defmodule NisseWeb do
   def live_view do
     quote do
       use Phoenix.LiveView,
-        layout: {NisseWeb.LayoutView, "live.html"}
+        layout: {NisseWeb.LayoutView, :live}
 
       unquote(view_helpers())
     end
