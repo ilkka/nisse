@@ -19,7 +19,7 @@
   </thead>
   <tbody id="rooms">
     <%= for room <- @rooms do %>
-      <tr id="room-<%= room.id %>">
+      <tr id={"room-#{room.id}"}>
         <td><%= room.label %></td>
 
         <td>

@@ -19,7 +19,7 @@
   </thead>
   <tbody id="spots">
     <%= for spot <- @spots do %>
-      <tr id="spot-<%= spot.id %>">
+      <tr id={"spot-#{spot.id}"}>
         <td><%= spot.label %></td>
 
         <td>

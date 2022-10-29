@@ -21,7 +21,7 @@
   </thead>
   <tbody id="plants">
     <%= for plant <- @plants do %>
-      <tr id="plant-<%= plant.id %>">
+      <tr id={"plant-#{plant.id}"}>
         <td><%= plant.name %></td>
         <td><%= plant.acquired_on %></td>
         <td><%= if is_nil(plant.species), do: "Unknown", else: live_redirect plant.species.name, to: Routes.plant_species_show_path(@socket, :show, plant.species) %></td>

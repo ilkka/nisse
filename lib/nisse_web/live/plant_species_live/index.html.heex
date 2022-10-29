@@ -21,7 +21,7 @@
   </thead>
   <tbody id="plant_species">
     <%= for plant_species <- @plant_species_collection do %>
-      <tr id="plant_species-<%= plant_species.id %>">
+      <tr id={"plant_species-#{plant_species.id}"}>
         <td><%= plant_species.name %></td>
         <td><%= plant_species.common_name %></td>
         <td><%= plant_species.care_instructions %></td>
