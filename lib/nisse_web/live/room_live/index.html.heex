@@ -1,12 +1,16 @@
 <h1>Listing Rooms</h1>
 
 <%= if @live_action in [:new, :edit] do %>
-  <%= live_modal @socket, NisseWeb.RoomLive.FormComponent,
-    id: @room.id || :new,
-    title: @page_title,
-    action: @live_action,
-    room: @room,
-    return_to: Routes.room_index_path(@socket, :index) %>
+  <.modal return_to={Routes.room_index_path(@socket, :index)}>
+    <.live_component
+      module={NisseWeb.RoomLive.FormComponent}
+      id={@room.id || :new}
+      title={@page_title}
+      action={@live_action}
+      room={@room}
+      return_to={Routes.room_index_path(@socket, :index)}
+    />
+  </.modal>
 <% end %>
 
 <table>

@@ -1,12 +1,16 @@
 <h1>Show Plant</h1>
 
 <%= if @live_action in [:edit] do %>
-  <%= live_modal @socket, NisseWeb.PlantLive.FormComponent,
-    id: @plant.id,
-    title: @page_title,
-    action: @live_action,
-    plant: @plant,
-    return_to: Routes.plant_show_path(@socket, :show, @plant) %>
+  <.modal return_to={Routes.plant_index_path(@socket, :show, @plant)}>
+    <.live_component
+      module={NisseWeb.PlantLive.FormComponent}
+      id={@plant.id}
+      title={@page_title}
+      action={@live_action}
+      plant={@plant}
+      return_to={Routes.plant_index_path(@socket, :show, @plant)}
+    />
+  </.modal>
 <% end %>
 
 <ul>
