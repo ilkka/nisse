@@ -50,7 +50,7 @@ defmodule Nisse.MixProject do
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 0.5"},
       {:timex, "~> 3.6.2"},
-      {:vapor, "~> 0.8.0"},
+      {:vapor, "~> 0.10.0"},
       {:esbuild, "~> 0.5.0", runtime: Mix.env() == :dev}
     ]
   end
