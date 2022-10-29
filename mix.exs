@@ -5,7 +5,7 @@ defmodule Nisse.MixProject do
     [
       app: :nisse,
       version: "0.1.0",
-      elixir: "~> 1.7",
+      elixir: "~> 1.14",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
@@ -50,7 +50,7 @@ defmodule Nisse.MixProject do
       {:telemetry_metrics, "~> 0.4"},
       {:telemetry_poller, "~> 0.4"},
       {:timex, "~> 3.6.2"},
-      {:vapor, "~> 0.8.0"},
+      {:vapor, "~> 0.8.0"}
     ]
   end
 
