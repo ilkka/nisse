@@ -7,18 +7,19 @@ defmodule NisseWeb.PlantStatus do
   @impl true
   def update(assigns, socket) do
     {water_event, water_label} = water_type(assigns.plant)
+
     {:ok,
      socket
      |> assign(assigns)
      |> assign(:last_watered, last_watered(assigns.plant))
      |> assign(:water_event, water_event)
-    |> assign(:water_label, water_label)}
+     |> assign(:water_label, water_label)}
   end
 
   @impl true
   def render(assigns) do
-    ~L"""
-    <div id="plant-status-<%= @id %>">
+    ~H"""
+    <div id={"plant-status-#{@id}"}>
       <h3><%= @plant.name %></h3>
       <p>A
         <span><%= @plant.species.name %> (<%= @plant.species.common_name %>)</span>,
@@ -26,9 +27,9 @@ defmodule NisseWeb.PlantStatus do
         last watered <span><%= @last_watered %></span>.
       </p>
       <div>
-        <button phx-click="<%= @water_event %>" phx-value-id="<%= @plant.id %>" phx-target="<%= @myself %>"><%= @water_label %></button>
-        <button phx-click="spray" phx-value-id="<%= @plant.id %>" phx-target="<%= @myself %>">Spray</button>
-        <button phx-click="wipe" phx-value-id="<%= @plant.id %>" phx-target="<%= @myself %>">Wipe leaves</button>
+        <button phx-click={@water_event} phx-value-id={@plant.id} phx-target={@myself}><%= @water_label %></button>
+        <button phx-click="spray" phx-value-id={@plant.id} phx-target={@myself}>Spray</button>
+        <button phx-click="wipe" phx-value-id={@plant.id} phx-target={@myself}>Wipe leaves</button>
       </div>
     </div>
     """

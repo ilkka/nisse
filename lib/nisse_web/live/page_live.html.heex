@@ -13,7 +13,7 @@
     <h2><%= room.label %></h2>
     <%= for spot <- room.spots do %>
     <%= for plant <- spot.plants do %>
-    <%= live_component @socket, PlantStatus, id: plant.id, plant: plant, spot: spot %>
+    <%= live_component PlantStatus, id: plant.id, plant: plant, spot: spot %>
     <% end %>
     <% end %>
   </div>
