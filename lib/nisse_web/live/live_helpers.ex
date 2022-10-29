@@ -1,4 +1,4 @@
-defmodule FoobarWeb.LiveHelpers do
+defmodule NisseWeb.LiveHelpers do
   import Phoenix.LiveView
   import Phoenix.LiveView.Helpers
 
@@ -14,7 +14,7 @@ defmodule FoobarWeb.LiveHelpers do
   
       <.modal return_to={Routes.widget_index_path(@socket, :index)}>
         <.live_component
-          module={FoobarWeb.WidgetLive.FormComponent}
+          module={NisseWeb.WidgetLive.FormComponent}
           id={@widget.id || :new}
           title={@page_title}
           action={@live_action}
