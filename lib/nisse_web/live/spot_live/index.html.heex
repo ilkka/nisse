@@ -1,12 +1,16 @@
 <h1>Listing Spots</h1>
 
 <%= if @live_action in [:new, :edit] do %>
-  <%= live_modal @socket, NisseWeb.SpotLive.FormComponent,
-    id: @spot.id || :new,
-    title: @page_title,
-    action: @live_action,
-    spot: @spot,
-    return_to: Routes.spot_index_path(@socket, :index) %>
+  <.modal return_to={Routes.spot_index_path(@socket, :index)}>
+    <.live_component
+      module={NisseWeb.SpotLive.FormComponent}
+      id={@spot.id || :new}
+      title={@page_title}
+      action={@live_action}
+      spot={@spot}
+      return_to={Routes.spot_index_path(@socket, :index)}
+    />
+  </.modal>
 <% end %>
 
 <table>
@@ -19,7 +23,7 @@
   </thead>
   <tbody id="spots">
     <%= for spot <- @spots do %>
-      <tr id="spot-<%= spot.id %>">
+      <tr id={"spot-#{spot.id}"}>
         <td><%= spot.label %></td>
 
         <td>

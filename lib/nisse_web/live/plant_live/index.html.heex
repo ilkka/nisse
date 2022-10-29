@@ -1,12 +1,16 @@
 <h1>Listing Plants</h1>
 
 <%= if @live_action in [:new, :edit] do %>
-  <%= live_modal @socket, NisseWeb.PlantLive.FormComponent,
-    id: @plant.id || :new,
-    title: @page_title,
-    action: @live_action,
-    plant: @plant,
-    return_to: Routes.plant_index_path(@socket, :index) %>
+  <.modal return_to={Routes.plant_index_path(@socket, :index)}>
+    <.live_component
+      module={NisseWeb.PlantLive.FormComponent}
+      id={@plant.id || :new}
+      title={@page_title}
+      action={@live_action}
+      plant={@plant}
+      return_to={Routes.plant_index_path(@socket, :index)}
+    />
+  </.modal>
 <% end %>
 
 <table>
@@ -21,7 +25,7 @@
   </thead>
   <tbody id="plants">
     <%= for plant <- @plants do %>
-      <tr id="plant-<%= plant.id %>">
+      <tr id={"plant-#{plant.id}"}>
         <td><%= plant.name %></td>
         <td><%= plant.acquired_on %></td>
         <td><%= if is_nil(plant.species), do: "Unknown", else: live_redirect plant.species.name, to: Routes.plant_species_show_path(@socket, :show, plant.species) %></td>

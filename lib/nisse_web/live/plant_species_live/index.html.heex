@@ -1,12 +1,16 @@
 <h1>Listing Plant species</h1>
 
 <%= if @live_action in [:new, :edit] do %>
-  <%= live_modal @socket, NisseWeb.PlantSpeciesLive.FormComponent,
-    id: @plant_species.id || :new,
-    title: @page_title,
-    action: @live_action,
-    plant_species: @plant_species,
-    return_to: Routes.plant_species_index_path(@socket, :index) %>
+  <.modal return_to={Routes.plant_species_index_path(@socket, :index)}>
+    <.live_component
+      module={NisseWeb.PlantSpeciesLive.FormComponent}
+      id={@plant_species.id || :new}
+      title={@page_title}
+      action={@live_action}
+      plant_species={@plant_species}
+      return_to={Routes.plant_species_index_path(@socket, :index)}
+    />
+  </.modal>
 <% end %>
 
 <table>
@@ -21,7 +25,7 @@
   </thead>
   <tbody id="plant_species">
     <%= for plant_species <- @plant_species_collection do %>
-      <tr id="plant_species-<%= plant_species.id %>">
+      <tr id={"plant_species-#{plant_species.id}"}>
         <td><%= plant_species.name %></td>
         <td><%= plant_species.common_name %></td>
         <td><%= plant_species.care_instructions %></td>

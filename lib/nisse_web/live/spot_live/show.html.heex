@@ -1,12 +1,16 @@
 <h1>Show Spot</h1>
 
 <%= if @live_action in [:edit] do %>
-  <%= live_modal @socket, NisseWeb.SpotLive.FormComponent,
-    id: @spot.id,
-    title: @page_title,
-    action: @live_action,
-    spot: @spot,
-    return_to: Routes.spot_show_path(@socket, :show, @spot) %>
+  <.modal return_to={Routes.spot_show_path(@socket, :show, @spot)}>
+    <.live_component
+      module={NisseWeb.SpotLive.FormComponent}
+      id={@spot.id}
+      title={@page_title}
+      action={@live_action}
+      spot={@spot}
+      return_to={Routes.spot_show_path(@socket, :show, @spot)}
+    />
+  </.modal>
 <% end %>
 
 <ul>

@@ -2,16 +2,16 @@ defmodule NisseWeb do
   @moduledoc """
   The entrypoint for defining your web interface, such
   as controllers, views, channels and so on.
-
+  
   This can be used in your application as:
-
+  
       use NisseWeb, :controller
       use NisseWeb, :view
-
+  
   The definitions below will be executed for every view,
   controller, etc, so keep them short and clean, focused
   on imports, uses and aliases.
-
+  
   Do NOT define functions inside the quoted expressions
   below. Instead, define any helper function in modules
   and import those modules here.
@@ -36,6 +36,8 @@ defmodule NisseWeb do
       # Import convenience functions from controllers
       import Phoenix.Controller,
         only: [get_flash: 1, get_flash: 2, view_module: 1, view_template: 1]
+
+      import Phoenix.Component
 
       # Include shared imports and aliases for views
       unquote(view_helpers())
@@ -66,6 +68,7 @@ defmodule NisseWeb do
       import Plug.Conn
       import Phoenix.Controller
       import Phoenix.LiveView.Router
+      import Phoenix.Component
     end
   end
 
@@ -82,7 +85,7 @@ defmodule NisseWeb do
       use Phoenix.HTML
 
       # Import LiveView helpers (live_render, live_component, live_patch, etc)
-      import Phoenix.LiveView.Helpers
+      import Phoenix.Component
       import NisseWeb.LiveHelpers
 
       # Import basic rendering functionality (render, render_layout, etc)

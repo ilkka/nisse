@@ -3,7 +3,7 @@
 ARG USERNAME=nisse
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
-ARG ELIXIR_VERSION=1.10.3
+ARG ELIXIR_VERSION=1.14.1
 
 
 ## **********************************************************************
