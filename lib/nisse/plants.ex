@@ -102,6 +102,21 @@ defmodule Nisse.Plants do
     Plant.changeset(plant, attrs)
   end
 
+  alias Nisse.Plants.Spot
+
+  @doc """
+  Moves a plant to a new spot and persists the change.
+
+  ## Examples
+
+      iex> move_plant(plant, spot)
+      {:ok, %Plant{}}
+  """
+  def move_plant(%Plant{} = plant, %Spot{} = spot) do
+    Plant.changeset(plant, %{spot_id: spot.id})
+    |> Repo.update()
+  end
+
   alias Nisse.Plants.PlantSpecies
 
   @doc """

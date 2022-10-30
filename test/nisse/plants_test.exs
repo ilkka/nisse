@@ -67,6 +67,15 @@ defmodule Nisse.PlantsTest do
       plant = plant_fixture()
       assert %Ecto.Changeset{} = Plants.change_plant(plant)
     end
+
+    test "move_plant/2 moves a plant to a new spot" do
+      plant = plant_fixture()
+      {:ok, room} = Plants.create_room(%{label: "My room"})
+      {:ok, spot} = Plants.create_spot(%{room_id: room.id, label: "Plant spot"})
+      {:ok, plant} = Plants.move_plant(plant, spot)
+      plant = Plants.get_plant!(plant.id)
+      assert plant.spot.id == spot.id
+    end
   end
 
   describe "plant_species" do
