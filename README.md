@@ -17,7 +17,7 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
 ## Data model
 
-![Data model diagram](docs/model.png)
+![Data model diagram](docs/Nisse plants model.png)
 
 ## Learn more
 
