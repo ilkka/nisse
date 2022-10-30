@@ -52,7 +52,7 @@ defmodule NisseWeb.PlantStatus do
 
   @impl true
   def handle_event("wipe", %{"id" => plant_id}, socket) do
-    {:ok, event} = Plants.create_plant_event(:wipe, plant_id)
+    {:ok, _event} = Plants.create_plant_event(:wipe, plant_id)
     {:noreply, socket}
   end
 
