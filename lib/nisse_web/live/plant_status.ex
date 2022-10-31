@@ -20,25 +20,6 @@ defmodule NisseWeb.PlantStatus do
   end
 
   @impl true
-  def render(assigns) do
-    ~H"""
-    <div id={"plant-status-#{@id}"}>
-      <h3><%= @plant.name %></h3>
-      <p>A
-        <span><%= @plant.species.name %> (<%= @plant.species.common_name %>)</span>,
-        location <span><%= @spot.label %></span>,
-        last watered <span><%= @last_watered %></span>.
-      </p>
-      <div>
-        <button phx-click={@water_event} phx-value-id={@plant.id} phx-target={@myself}><%= @water_label %></button>
-        <button phx-click="spray" phx-value-id={@plant.id} phx-target={@myself}>Spray</button>
-        <button phx-click="wipe" phx-value-id={@plant.id} phx-target={@myself}>Wipe leaves</button>
-      </div>
-    </div>
-    """
-  end
-
-  @impl true
   def handle_event("water", %{"id" => plant_id}, socket) do
     {:ok, event} = Plants.create_plant_event(:water, plant_id)
     {:noreply, assign(socket, :last_watered, Times.format_relative!(event.inserted_at))}

@@ -1,0 +1,13 @@
+<div id={"plant-status-#{@id}"}>
+  <h3><%= @plant.name %></h3>
+  <p>A
+    <span><%= @plant.species.name %> (<%= @plant.species.common_name %>)</span>,
+    location <span><%= @spot.label %></span>,
+    last watered <span><%= @last_watered %></span>.
+  </p>
+  <div>
+    <button phx-click={@water_event} phx-value-id={@plant.id} phx-target={@myself}><%= @water_label %></button>
+    <button phx-click="spray" phx-value-id={@plant.id} phx-target={@myself}>Spray</button>
+    <button phx-click="wipe" phx-value-id={@plant.id} phx-target={@myself}>Wipe leaves</button>
+  </div>
+</div>
