@@ -4,6 +4,10 @@ on:
   push:
     branches: [trunk]
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   build:
     name: Build and publish image
