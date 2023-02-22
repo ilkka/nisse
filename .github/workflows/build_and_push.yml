@@ -19,9 +19,9 @@ jobs:
         with:
           username: ilkka
           password: ${{ github.token }}
-          registry: docker.pkg.github.com
+          registry: ghcr.io
           repository: ilkka/nisse/nisse
-          cache_froms: docker.pkg.github.com/ilkka/nisse/nisse:latest
+          cache_froms: ghcr.io/ilkka/nisse/nisse:latest
           tags: latest
           tag_with_ref: false
           tag_with_sha: false
