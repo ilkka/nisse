@@ -67,7 +67,7 @@ RUN mix release
 ## **********************************************************************
 ## Run release in production mode
 ## **********************************************************************
-FROM debian:buster-20200803-slim as deploy
+FROM debian:bullseye-20230208-slim as deploy
 LABEL maintainer="Ilkka Poutanen <ilkka@ilkka.dev>"
 RUN apt-get update \
   && export DEBIAN_FRONTEND=noninteractive \
