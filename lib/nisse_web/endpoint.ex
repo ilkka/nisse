@@ -25,7 +25,7 @@ defmodule NisseWeb.Endpoint do
     at: "/",
     from: :nisse,
     gzip: false,
-    only: ~w(assets fonts images favicon.ico robots.txt)
+    only: NisseWeb.static_paths()
 
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.

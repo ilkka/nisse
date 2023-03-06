@@ -6,7 +6,7 @@ defmodule NisseWeb do
   This can be used in your application as:
   
       use NisseWeb, :controller
-      use NisseWeb, :view
+      use NisseWeb, :html
   
   The definitions below will be executed for every view,
   controller, etc, so keep them short and clean, focused
@@ -17,39 +17,44 @@ defmodule NisseWeb do
   and import those modules here.
   """
 
+  def static_paths, do: ~w(assets fonts images favicon.ico robots.txt)
+  
+  # done
   def controller do
     quote do
-      use Phoenix.Controller, namespace: NisseWeb
+      use Phoenix.Controller,
+        formats: [:html, :json],
+        layouts: [html: NisseWeb.Layouts],
+        namespace: NisseWeb
 
       import Plug.Conn
       import NisseWeb.Gettext
-      alias NisseWeb.Router.Helpers, as: Routes
+
+      unquote(verified_routes())
     end
   end
 
-  def view do
+  # done
+  def html do
     quote do
-      use Phoenix.View,
-        root: "lib/nisse_web/templates",
-        namespace: NisseWeb
-
+      use Phoenix.Component
+      
       # Import convenience functions from controllers
       import Phoenix.Controller,
-        only: [get_flash: 1, get_flash: 2, view_module: 1, view_template: 1]
+        only: [get_csrf_token: 0, get_flash: 1, get_flash: 2, view_module: 1, view_template: 1]
 
-      import Phoenix.Component
-
-      # Include shared imports and aliases for views
-      unquote(view_helpers())
+      # Include general helpers for rendering HTML
+      unquote(html_helpers())
     end
   end
 
+  # done
   def live_view do
     quote do
       use Phoenix.LiveView,
-        layout: {NisseWeb.LayoutView, :live}
+        layout: {NisseWeb.Layouts, :app}
 
-      unquote(view_helpers())
+      unquote(html_helpers())
     end
   end
 
@@ -57,29 +62,29 @@ defmodule NisseWeb do
     quote do
       use Phoenix.LiveComponent
 
-      unquote(view_helpers())
+      unquote(html_helpers())
     end
   end
 
+  # done
   def router do
     quote do
-      use Phoenix.Router
+      use Phoenix.Router, helpers: false
 
       import Plug.Conn
       import Phoenix.Controller
       import Phoenix.LiveView.Router
-      import Phoenix.Component
     end
   end
 
+  # done
   def channel do
     quote do
       use Phoenix.Channel
-      import NisseWeb.Gettext
     end
   end
 
-  defp view_helpers do
+  defp html_helpers do
     quote do
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
@@ -94,6 +99,18 @@ defmodule NisseWeb do
       import NisseWeb.ErrorHelpers
       import NisseWeb.Gettext
       alias NisseWeb.Router.Helpers, as: Routes
+
+      unquote(verified_routes())
+    end
+  end
+
+  # done
+  def verified_routes do
+    quote do
+      use Phoenix.VerifiedRoutes,
+        endpoint: NisseWeb.Endpoint,
+        router: NisseWeb.Router,
+        statics: NisseWeb.static_paths()
     end
   end
 

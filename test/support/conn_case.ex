@@ -24,7 +24,7 @@ defmodule NisseWeb.ConnCase do
       import Phoenix.ConnTest
       import NisseWeb.ConnCase
 
-      alias NisseWeb.Router.Helpers, as: Routes
+      use NisseWeb, :verified_routes
 
       # The default endpoint for testing
       @endpoint NisseWeb.Endpoint
