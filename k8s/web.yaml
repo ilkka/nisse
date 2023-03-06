@@ -1,0 +1,51 @@
+apiversion: v1
+kind: Service
+metadata:
+  name: web
+spec:
+  ports:
+  - port: 4000
+    name: http
+  type: LoadBalancer
+  selector:
+    app: web
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: web-secrets
+data:
+  secret-key-base: MkdSSEtqdzgxZXJvbXNnODZBRkZCcjJ4eGlTWkRDZkh6ZkZDNEZTVE5YbDF1RHVucVE0OFJ2S01tSUZFR04zcA==
+  signing-salt: NzhOZ3pCY20xMnhrYk9FVnc4UFVDRDQ3VHlsbm9IWVQxNDgyWjlud1d5SGpUek1kRmFOMWgrNkpFSkFzZGJOdQ==
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+spec:
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+      - name: web
+        image: nisse
+        ports:
+          - containerPort: 4000
+        env:
+          - name: SECRET_KEY_BASE
+            valueFrom:
+              secretKeyRef:
+                name: web-secrets
+                key: secret-key-base
+          - name: SIGNING_SALT
+            valueFrom:
+              secretKeyRef:
+                name: web-secrets
+                key: signing-salt
