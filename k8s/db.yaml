@@ -72,10 +72,10 @@ spec:
   type: ClusterIP
   clusterIP: None
   ports:
-  - name: postgresql
-    port: 5432
-    targetPort: postgresql
-    protocol: TCP
+    - name: postgresql
+      port: 5432
+      targetPort: postgresql
+      protocol: TCP
   selector:
     app: postgres
 
@@ -117,6 +117,10 @@ spec:
           imagePullPolicy: "IfNotPresent"
           securityContext:
             runAsUser: 1001
+          resources:
+            limits:
+              cpu: 100m
+              memory: 256M
           env:
             - name: BITNAMI_DEBUG
               value: "false"
@@ -300,6 +304,10 @@ spec:
           imagePullPolicy: "IfNotPresent"
           securityContext:
             runAsUser: 1001
+          resources:
+            limits:
+              cpu: 100m
+              memory: 256M
           env:
             - name: BITNAMI_DEBUG
               value: "false"
