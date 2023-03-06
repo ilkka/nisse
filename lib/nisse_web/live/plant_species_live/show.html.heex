@@ -32,5 +32,5 @@
 
 </ul>
 
-<span><%= live_patch "Edit", to: Routes.plant_species_show_path(@socket, :edit, @plant_species), class: "button" %></span>
-<span><%= live_redirect "Back", to: Routes.plant_species_index_path(@socket, :index) %></span>
+<span><.link patch={Routes.plant_species_show_path(@socket, :edit, @plant_species)} class="button">Edit</.link></span>
+<span><.link navigate={Routes.plant_species_index_path(@socket, :index)}>Back</.link></span>

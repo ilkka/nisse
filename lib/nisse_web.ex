@@ -84,7 +84,7 @@ defmodule NisseWeb do
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
 
-      # Import LiveView helpers (live_render, live_component, live_patch, etc)
+      # Import LiveView helpers
       import Phoenix.Component
       import NisseWeb.LiveHelpers
 

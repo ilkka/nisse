@@ -22,5 +22,5 @@
 
 </ul>
 
-<span><%= live_patch "Edit", to: Routes.spot_show_path(@socket, :edit, @spot), class: "button" %></span>
-<span><%= live_redirect "Back", to: Routes.spot_index_path(@socket, :index) %></span>
+<span><.link patch={Routes.spot_show_path(@socket, :edit, @spot)} class="button">Edit</.link></span>
+<span><.link navigate={Routes.spot_index_path(@socket, :index)}>Back</.link></span>

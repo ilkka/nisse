@@ -2,10 +2,10 @@
   <h1>Nisse</h1>
 
   <ul>
-    <li><%= live_redirect "Plants", to: Routes.plant_index_path(@socket, :index) %></li>
-    <li><%= live_redirect "Plant species", to: Routes.plant_species_index_path(@socket, :index) %></li>
-    <li><%= live_redirect "Rooms", to: Routes.room_index_path(@socket, :index) %></li>
-    <li><%= live_redirect "Spots", to: Routes.spot_index_path(@socket, :index) %></li>
+    <li><.link navigate={Routes.plant_index_path(@socket, :index)}>Plants</.link></li>
+    <li><.link navigate={Routes.plant_species_index_path(@socket, :index)}>Plant species</.link></li>
+    <li><.link navigate={Routes.room_index_path(@socket, :index)}>Rooms</.link></li>
+    <li><.link navigate={Routes.spot_index_path(@socket, :index)}>Spots</.link></li>
   </ul>
 
   <%= for room <- @rooms, Plants.room_has_plants?(room) do %>

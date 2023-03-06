@@ -27,8 +27,8 @@
         <td><%= spot.label %></td>
 
         <td>
-          <span><%= live_redirect "Show", to: Routes.spot_show_path(@socket, :show, spot) %></span>
-          <span><%= live_patch "Edit", to: Routes.spot_index_path(@socket, :edit, spot) %></span>
+          <span><.link navigate={Routes.spot_show_path(@socket, :show, @spot)}>Show</.link></span>
+          <span><.link patch={Routes.spot_index_path(@socket, :edit, @spot)}>Edit</.link></span>
           <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: spot.id, data: [confirm: "Are you sure?"] %></span>
         </td>
       </tr>
@@ -36,4 +36,4 @@
   </tbody>
 </table>
 
-<span><%= live_patch "New Spot", to: Routes.spot_index_path(@socket, :new) %></span>
+<span><.link patch={Routes.spot_index_path(@socket, :new)}>New Spot</.link></span>

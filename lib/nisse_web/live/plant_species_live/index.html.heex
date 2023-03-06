@@ -31,8 +31,8 @@
         <td><%= plant_species.care_instructions %></td>
 
         <td>
-          <span><%= live_redirect "Show", to: Routes.plant_species_show_path(@socket, :show, plant_species) %></span>
-          <span><%= live_patch "Edit", to: Routes.plant_species_index_path(@socket, :edit, plant_species) %></span>
+          <span><.link navigate={Routes.plant_species_show_path(@socket, :show, plant_species)}>Show</.link></span>
+          <span><.link patch={Routes.plant_species_index_path(@socket, :edit, plant_species)}>Edit</.link></span>
           <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: plant_species.id, data: [confirm: "Are you sure?"] %></span>
         </td>
       </tr>
@@ -40,4 +40,4 @@
   </tbody>
 </table>
 
-<span><%= live_patch "New Plant species", to: Routes.plant_species_index_path(@socket, :new) %></span>
+<span><.link patch={Routes.plant_species_index_path(@socket, :new)}>New Plant species</.link></span>
