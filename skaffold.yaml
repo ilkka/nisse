@@ -1,0 +1,13 @@
+apiVersion: skaffold/v4beta2
+kind: Config
+metadata:
+  name: nisse
+build:
+  artifacts:
+  - image: nisse
+    docker:
+      dockerfile: Dockerfile
+manifests:
+  rawYaml:
+  - k8s/db.yaml
+  - k8s/web.yaml
