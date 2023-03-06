@@ -261,7 +261,6 @@ spec:
       port: 5432
       targetPort: postgresql
       protocol: TCP
-      nodePort: null
   selector:
     app: pgpool
 
