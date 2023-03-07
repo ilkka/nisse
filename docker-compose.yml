@@ -18,5 +18,7 @@ services:
       - DB_URL=ecto://postgres:postgres@db:5432/nisse_prod
       - SECRET_KEY_BASE
       - SIGNING_SALT
+      - PORT=4000
+      - MIX_ENV=prod
     ports:
       - "4000:4000"
