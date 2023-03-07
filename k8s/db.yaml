@@ -300,7 +300,7 @@ spec:
         fsGroup: 1001
       containers:
         - name: pgpool
-          image: docker.io/bitnami/pgpool:4.2.3-debian-10-r38
+          image: docker.io/bitnami/pgpool:4.4.2-debian-11-r13
           imagePullPolicy: "IfNotPresent"
           securityContext:
             runAsUser: 1001
