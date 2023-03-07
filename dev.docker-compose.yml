@@ -1,0 +1,14 @@
+version: "3.7"
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: develop
+    environment:
+      - DB_URL=ecto://postgres:postgres@db:5432/nisse_dev
+      - SECRET_KEY_BASE
+      - SIGNING_SALT
+    ports:
+      - "4000:4000"

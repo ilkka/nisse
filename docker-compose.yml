@@ -13,9 +13,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      target: develop
+      target: deploy
     environment:
-      - DB_URL=ecto://postgres:postgres@db:5432/nisse_dev
+      - DB_URL=ecto://postgres:postgres@db:5432/nisse_prod
       - SECRET_KEY_BASE
       - SIGNING_SALT
     ports:
