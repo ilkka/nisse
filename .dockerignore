@@ -9,3 +9,4 @@ deps
 .env
 .env.test
 assets/node_modules
+k8s
