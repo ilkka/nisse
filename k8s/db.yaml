@@ -85,7 +85,8 @@ kind: Secret
 metadata:
   name: postgres-secrets
 data:
-  postgresql-password: eTBpTjZTNXY0aXREdWp3OC84RGtzU21RRWhlQVpCeSt5QnZBbTJ2eDdFemJpSllTb1g4eXloSFhtcFFBZWJVTg==
+  # Note: this has to be URL safe for now when decoded
+  postgresql-password: Z2Fqa3NncmNha2VidGthcmp5ZXRyeXUzdGJjYWsyMzQy
   repmgr-password: d2hwY1Z5YkpxUStjQjBOa0RmNHhYTUYvZG9rWVZVQTF4b0dYZ2lLb2o3aE11cjdBSlJHc0VDcGw0Z0lJb2FVag==
 
 ---
