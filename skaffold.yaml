@@ -4,10 +4,14 @@ metadata:
   name: nisse
 build:
   artifacts:
-  - image: nisse
-    docker:
-      dockerfile: Dockerfile
+    - image: nisse
+      docker:
+        dockerfile: Dockerfile
+    - image: nisse-dev
+      docker:
+        dockerfile: Dockerfile
+        target: build
 manifests:
   rawYaml:
-  - k8s/db.yaml
-  - k8s/web.yaml
+    - k8s/db.yaml
+    - k8s/web.yaml
