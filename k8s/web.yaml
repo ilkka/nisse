@@ -40,8 +40,8 @@ spec:
             - containerPort: 4000
           resources:
             limits:
-              cpu: 100m
-              memory: 256M
+              cpu: 500m
+              memory: 512M
           env:
             - name: WEB_NAMESPACE
               valueFrom:
