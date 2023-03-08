@@ -35,7 +35,7 @@ spec:
     spec:
       containers:
         - name: web
-          image: nisse
+          image: ghcr.io/ilkka/nisse/nisse
           ports:
             - containerPort: 4000
           resources:
@@ -68,7 +68,7 @@ spec:
                   key: signing-salt
       initContainers:
         - name: create-db
-          image: nisse-dev
+          image: ghcr.io/ilkka/nisse/nisse-dev
           command: ["bash", "-c", "until psql -h pgpool-svc.$(WEB_NAMESPACE).svc.cluster.local -U $(POSTGRES_USER) -d postgres -c 'SELECT 1'; do echo 'waiting for db'; sleep 2; done; echo 'creating database'; mix do ecto.create, ecto.migrate"]
           resources:
             limits:

@@ -3,11 +3,13 @@ kind: Config
 metadata:
   name: nisse
 build:
+  local:
+    push: true
   artifacts:
-    - image: nisse
+    - image: ghcr.io/ilkka/nisse/nisse
       docker:
         dockerfile: Dockerfile
-    - image: nisse-dev
+    - image: ghcr.io/ilkka/nisse/nisse-dev
       docker:
         dockerfile: Dockerfile
         target: build
