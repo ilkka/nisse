@@ -1,14 +1,30 @@
+# git stuff
 .git
-.devcontainer
-.dockerignore
+.gitattributes
+.gitignore
+.github
+
+# docker stuff
 Dockerfile
+.dockerignore
 docker-compose.yml
 *.docker-compose.yml
+
+# devcontainer stuff
+.devcontainer
+
+# elixir build stuff
 _build
 deps
-.vscode
 .elixir_ls
+
+# editor stuff
+.vscode
+
+# runtime config stuff
 .env
-.env.test
-assets/node_modules
+.env.*
+
+# k8s and skaffold stuff
 k8s
+skaffold.yaml
