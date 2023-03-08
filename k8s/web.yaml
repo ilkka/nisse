@@ -66,3 +66,31 @@ spec:
                 secretKeyRef:
                   name: web-secrets
                   key: signing-salt
+      initContainers:
+        - name: create-db
+          image: nisse-dev
+          command: ["bash", "-c", "until psql -h pgpool-svc.$(WEB_NAMESPACE).svc.cluster.local -U $(POSTGRES_USER) -d postgres -c 'SELECT 1'; do echo 'waiting for db'; sleep 2; done; echo 'creating database'; mix do ecto.create, ecto.migrate"]
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512M
+          env:
+            - name: MIX_ENV
+              value: prod
+            - name: WEB_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: POSTGRES_USER
+              value: "postgres"
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secrets
+                  key: postgresql-password
+            - name: DB_URL
+              value: "ecto://$(POSTGRES_USER):$(PGPASSWORD)@pgpool-svc.$(WEB_NAMESPACE).svc.cluster.local:5432/nisse_dev"
+            - name: SECRET_KEY_BASE
+              value: ''
+            - name: SIGNING_SALT
+              value: ''
