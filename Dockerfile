@@ -71,7 +71,7 @@ FROM debian:11.6-slim as deploy
 LABEL maintainer="Ilkka Poutanen <ilkka@ilkka.dev>"
 RUN apt-get update \
   && export DEBIAN_FRONTEND=noninteractive \
-  && apt-get install -y libssl1.1 coreutils lsof curl \
+  && apt-get install -y libssl1.1 \
   && rm -rf /var/lib/apt/lists/*
 ARG USERNAME
 ARG USER_UID
