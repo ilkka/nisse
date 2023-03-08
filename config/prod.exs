@@ -11,6 +11,7 @@ import Config
 # before starting your production server.
 config :nisse, NisseWeb.Endpoint,
   cache_static_manifest: "priv/static/cache_manifest.json",
+  server: true,
   http: [
     transport_options: [socket_opts: [:inet6]]
   ]

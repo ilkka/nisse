@@ -36,7 +36,8 @@ RUN mix local.hex --force \
 
 WORKDIR /app
 COPY mix.exs mix.lock ./
-RUN mix do deps.get, deps.compile
+RUN MIX_ENV=dev mix do deps.get, deps.compile
+RUN MIX_ENV=prod mix do deps.get, deps.compile
 COPY . ./
 
 
@@ -54,7 +55,7 @@ CMD ["mix", "phx.server"]
 ## **********************************************************************
 FROM base as build
 ENV MIX_ENV=prod
-RUN mix do deps.compile, phx.digest, compile
+RUN mix do phx.digest, compile
 
 
 ## **********************************************************************

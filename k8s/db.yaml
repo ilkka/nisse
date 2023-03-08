@@ -1,0 +1,376 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-configmap
+data:
+  pre-stop.sh: |-
+    #!/bin/bash
+    set -o errexit
+    set -o pipefail
+    set -o nounset
+
+    # debug?
+    exec 3>&1
+    exec 4>&2
+
+    # load libraries
+    . /opt/bitnami/scripts/liblog.sh
+    . /opt/bitnami/scripts/libpostgresql.sh
+    . /opt/bitnami/scripts/librepmgr.sh
+
+    # aux functions
+    is_new_primary_ready() {
+      return_value=1
+      current_primary_node="$(repmgr_get_primary_node)"
+      current_primary_host="$(echo $current_primary_node | awk '{print $1}')"
+
+      info "$current_primary_host != $REPMGR_NODE_NETWORK_NAME"
+      if [[ $(echo $current_primary_node | wc -w) -eq 2 ]] && [[ "$current_primary_host" != "$REPMGR_NODE_NETWORK_NAME" ]]; then
+        info "New primary detected, leaving cluster"
+        return_value=0
+      else
+        info "Waiting for a new primary to be available..."
+      fi
+      return $return_value
+    }
+
+    export MODULE="pre-stop-hook"
+
+    if [[ "${BITNAMI_DEBUG}" == "true" ]]; then
+      info "Bash debug is on"
+    else
+      info "Bash debug is off"
+      exec 1>/dev/null
+      exec 2>/dev/null
+    fi
+
+    # load postgres & repmgr env vars
+    . /opt/bitnami/scripts/postgresql-env.sh
+
+    postgresql_enable_nss_wrapper
+
+    # prep env vars for managing roles
+    primary_node="$(repmgr_get_primary_node)"
+    primary_host="$(echo $primary_node | awk '{print $1}')"
+
+    # stop postgres for graceful exit
+    postgresql_stop
+
+    if [[ "$primary_host" == "$REPMGR_NODE_NETWORK_NAME" ]]; then
+      info "Primary node needs to wait for a new primary before leaving cluster"
+      retry_while is_new_primary_ready 10 5
+    else
+      info "Standby node doesn't need to wait, leaving the cluster"
+    fi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-headless-svc
+spec:
+  type: ClusterIP
+  clusterIP: None
+  ports:
+    - name: postgresql
+      port: 5432
+      targetPort: postgresql
+      protocol: TCP
+  selector:
+    app: postgres
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: postgres-secrets
+data:
+  # Note: this has to be URL safe for now when decoded
+  postgresql-password: Z2Fqa3NncmNha2VidGthcmp5ZXRyeXUzdGJjYWsyMzQy
+  repmgr-password: d2hwY1Z5YkpxUStjQjBOa0RmNHhYTUYvZG9rWVZVQTF4b0dYZ2lLb2o3aE11cjdBSlJHc0VDcGw0Z0lJb2FVag==
+
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres-sts
+spec:
+  serviceName: postgres-headless-svc
+  replicas: 3
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      securityContext:
+        fsGroup: 1001
+      containers:
+        - name: postgresql
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                  - /pre-stop.sh
+          image: docker.io/bitnami/postgresql-repmgr:11.12.0-debian-10-r44
+          imagePullPolicy: "IfNotPresent"
+          securityContext:
+            runAsUser: 1001
+          resources:
+            limits:
+              cpu: 100m
+              memory: 256M
+          env:
+            - name: BITNAMI_DEBUG
+              value: "false"
+            # postgres config
+            - name: POSTGRESQL_VOLUME_DIR
+              value: "/bitnami/postgresql"
+            - name: PGDATA
+              value: "/bitnami/postgresql/data"
+            - name: POSTGRES_USER
+              value: "postgres"
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secrets
+                  key: postgresql-password
+            - name: POSTGRES_DB
+              value: "postgres"
+            - name: POSTGRESQL_LOG_HOSTNAME
+              value: "true"
+            - name: POSTGRESQL_LOG_CONNECTIONS
+              value: "false"
+            - name: POSTGRESQL_LOG_DISCONNECTIONS
+              value: "false"
+            - name: POSTGRESQL_PGAUDIT_LOG_CATALOG
+              value: "off"
+            - name: POSTGRESQL_CLIENT_MIN_MESSAGES
+              value: "error"
+            - name: POSTGRESQL_SHARED_PRELOAD_LIBRARIES
+              value: "pgaudit, repmgr"
+            - name: POSTGRESQL_ENABLE_TLS
+              value: "no"
+            # repmgr config
+            - name: MY_POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: REPMGR_UPGRADE_EXTENSION
+              value: "no"
+            - name: REPMGR_PGHBA_TRUST_ALL
+              value: "no"
+            - name: REPMGR_MOUNTED_CONF_DIR
+              value: "/bitnami/repmgr/conf"
+            - name: REPMGR_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: REPMGR_PARTNER_NODES
+              value: "postgres-sts-0.postgres-headless-svc.$(REPMGR_NAMESPACE).svc.cluster.local,postgres-sts-1.postgres-headless-svc.$(REPMGR_NAMESPACE).svc.cluster.local,postgres-sts-2.postgres-headless-svc.$(REPMGR_NAMESPACE).svc.cluster.local"
+            - name: REPMGR_PRIMARY_HOST
+              value: "postgres-sts-0.postgres-headless-svc.$(REPMGR_NAMESPACE).svc.cluster.local"
+            - name: REPMGR_NODE_NAME
+              value: "$(MY_POD_NAME)"
+            - name: REPMGR_NODE_NETWORK_NAME
+              value: "$(MY_POD_NAME).postgres-headless-svc.$(REPMGR_NAMESPACE).svc.cluster.local"
+            - name: REPMGR_LOG_LEVEL
+              value: "NOTICE"
+            - name: REPMGR_CONNECT_TIMEOUT
+              value: "5"
+            - name: REPMGR_RECONNECT_ATTEMPTS
+              value: "3"
+            - name: REPMGR_RECONNECT_INTERVAL
+              value: "5"
+            - name: REPMGR_USERNAME
+              value: "repmgr"
+            - name: REPMGR_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secrets
+                  key: repmgr-password
+            - name: REPMGR_DATABASE
+              value: "repmgr"
+          ports:
+            - name: postgresql
+              containerPort: 5432
+              protocol: TCP
+          livenessProbe:
+            exec:
+              command:
+                - bash
+                - -ec
+                - 'PGPASSWORD=$POSTGRES_PASSWORD psql -w -U "postgres" -d "postgres" -h 127.0.0.1 -c "SELECT 1"'
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 6
+          readinessProbe:
+            exec:
+              command:
+                - bash
+                - -ec
+                - 'PGPASSWORD=$POSTGRES_PASSWORD psql -w -U "postgres" -d "postgres" -h 127.0.0.1 -c "SELECT 1"'
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 6
+          volumeMounts:
+            - name: data
+              mountPath: /bitnami/postgresql
+            - name: hook-scripts
+              mountPath: /pre-stop.sh
+              subPath: pre-stop.sh
+      volumes:
+        - name: hook-scripts
+          configMap:
+            name: postgres-configmap
+            defaultMode: 0755
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes:
+          - "ReadWriteOnce"
+        resources:
+          requests:
+            storage: "1Gi"
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: pgpool-secrets
+data:
+  admin-password: dWZiTDNubkpGUVdUKzRpVEFCeUVKT2pueVpxWnpVRDJCdTFUaEdRaFgxakMrQ0tzQUNCbVgzKytpTXU0NWQ3Nw==
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pgpool-svc
+spec:
+  type: ClusterIP
+  sessionAffinity: None
+  ports:
+    - name: postgresql
+      port: 5432
+      targetPort: postgresql
+      protocol: TCP
+  selector:
+    app: pgpool
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pgpool-svc-nodeport
+spec:
+  type: NodePort
+  sessionAffinity: None
+  ports:
+    - name: postgresql
+      port: 5432
+      nodePort: 32000
+      targetPort: postgresql
+      protocol: TCP
+  selector:
+    app: pgpool
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pgpool-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pgpool
+  template:
+    metadata:
+      labels:
+        app: pgpool
+    spec:
+      securityContext:
+        fsGroup: 1001
+      containers:
+        - name: pgpool
+          image: docker.io/bitnami/pgpool:4.4.2-debian-11-r13
+          imagePullPolicy: "IfNotPresent"
+          securityContext:
+            runAsUser: 1001
+          resources:
+            limits:
+              cpu: 100m
+              memory: 256M
+          env:
+            - name: BITNAMI_DEBUG
+              value: "false"
+            - name: PGPOOL_BACKEND_NODES
+              value: "0:postgres-sts-0.postgres-headless-svc:5432,1:postgres-sts-1.postgres-headless-svc:5432,2:postgres-sts-2.postgres-headless-svc:5432"
+            - name: PGPOOL_SR_CHECK_USER
+              value: "repmgr"
+            - name: PGPOOL_SR_CHECK_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secrets
+                  key: repmgr-password
+            - name: PGPOOL_SR_CHECK_DATABASE
+              value: "postgres"
+            - name: PGPOOL_ENABLE_LDAP
+              value: "no"
+            - name: PGPOOL_POSTGRES_USERNAME
+              value: "postgres"
+            - name: PGPOOL_POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secrets
+                  key: postgresql-password
+            - name: PGPOOL_ADMIN_USERNAME
+              value: "admin"
+            - name: PGPOOL_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pgpool-secrets
+                  key: admin-password
+            - name: PGPOOL_ENABLE_LOAD_BALANCING
+              value: "yes"
+            - name: PGPOOL_ENABLE_LOG_CONNECTIONS
+              value: "no"
+            - name: PGPOOL_ENABLE_LOG_HOSTNAME
+              value: "yes"
+            - name: PGPOOL_ENABLE_LOG_PER_NODE_STATEMENT
+              value: "no"
+            - name: PGPOOL_CHILD_LIFE_TIME
+              value: ""
+            - name: PGPOOL_ENABLE_TLS
+              value: "no"
+          ports:
+            - name: postgresql
+              containerPort: 5432
+              protocol: TCP
+          livenessProbe:
+            exec:
+              command:
+                - /opt/bitnami/scripts/pgpool/healthcheck.sh
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 5
+          readinessProbe:
+            exec:
+              command:
+                - bash
+                - -ec
+                - PGPASSWORD=${PGPOOL_POSTGRES_PASSWORD} psql -U "postgres" -d "postgres" -h /opt/bitnami/pgpool/tmp -tA -c "SELECT 1" >/dev/null
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 5

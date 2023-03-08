@@ -1,5 +1,21 @@
 {
 	"cSpell.words": [
-		"Nisse"
+		"BITNAMI",
+		"ecto",
+		"errexit",
+		"healthcheck",
+		"liblog",
+		"libpostgresql",
+		"librepmgr",
+		"Nisse",
+		"nounset",
+		"pgaudit",
+		"PGDATA",
+		"PGHBA",
+		"PGPASSWORD",
+		"pgpool",
+		"pipefail",
+		"psql",
+		"repmgr"
 	]
 }
