@@ -1,6 +1,6 @@
 defmodule NisseWeb.ErrorView do
-  use NisseWeb, :view
-
+  use NisseWeb, :html
+  
   # If you want to customize a particular status code
   # for a certain format, you may uncomment below.
   # def render("500.html", _assigns) do

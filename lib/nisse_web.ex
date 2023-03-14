@@ -93,9 +93,6 @@ defmodule NisseWeb do
       import Phoenix.Component
       import NisseWeb.LiveHelpers
 
-      # Import basic rendering functionality (render, render_layout, etc)
-      import Phoenix.View
-
       import NisseWeb.ErrorHelpers
       import NisseWeb.Gettext
       alias NisseWeb.Router.Helpers, as: Routes
