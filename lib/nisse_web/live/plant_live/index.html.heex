@@ -28,15 +28,28 @@
       <tr id={"plant-#{plant.id}"}>
         <td><%= plant.name %></td>
         <td><%= plant.acquired_on %></td>
-        <td><%= if is_nil(plant.species) %>
-          Unknown
-        <%= else %>
-          <.link navigate={Routes.plant_species_show_path(@socket, :show, plant.species)}><%= plant.species.name %></.link>
-         <% end %></td>
         <td>
-          <span><.link navigate={Routes.plant_show_path(@socket, :show, plant)}>Show</.link></span>
+          <%= if is_nil(plant.species) do %>
+            Unknown
+          <% else %>
+            <.link navigate={Routes.plant_species_show_path(@socket, :show, plant.species)}>
+              <%= plant.species.name %>
+            </.link>
+          <% end %>
+        </td>
+        <td>
+          <span>
+            <.link navigate={Routes.plant_show_path(@socket, :show, plant)}>Show</.link>
+          </span>
           <span><.link patch={Routes.plant_index_path(@socket, :edit, plant)}>Edit</.link></span>
-          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: plant.id, data: [confirm: "Are you sure?"] %></span>
+          <span>
+            <%= link("Delete",
+              to: "#",
+              phx_click: "delete",
+              phx_value_id: plant.id,
+              data: [confirm: "Are you sure?"]
+            ) %>
+          </span>
         </td>
       </tr>
     <% end %>
