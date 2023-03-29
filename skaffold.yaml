@@ -3,16 +3,12 @@ kind: Config
 metadata:
   name: nisse
 build:
-  local:
-    push: true
+  #local:
+  #  push: true
   artifacts:
     - image: ghcr.io/ilkka/nisse/nisse
       docker:
         dockerfile: Dockerfile
-    - image: ghcr.io/ilkka/nisse/nisse-dev
-      docker:
-        dockerfile: Dockerfile
-        target: build
 manifests:
   rawYaml:
     - k8s/db.yaml

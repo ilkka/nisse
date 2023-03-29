@@ -55,7 +55,7 @@ spec:
                   name: postgres-secrets
                   key: postgresql-password
             - name: DB_URL
-              value: "ecto://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@pgpool-svc.$(WEB_NAMESPACE).svc.cluster.local:5432/nisse_dev"
+              value: "ecto://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@pgpool-svc.$(WEB_NAMESPACE).svc.cluster.local:5432/nisse"
             - name: SECRET_KEY_BASE
               valueFrom:
                 secretKeyRef:
@@ -67,13 +67,53 @@ spec:
                   name: web-secrets
                   key: signing-salt
       initContainers:
-        - name: create-db
-          image: ghcr.io/ilkka/nisse/nisse-dev
-          command: ["bash", "-c", "until psql -h pgpool-svc.$(WEB_NAMESPACE).svc.cluster.local -U $(POSTGRES_USER) -d postgres -c 'SELECT 1'; do echo 'waiting for db'; sleep 2; done; echo 'creating database'; mix do ecto.create, ecto.migrate"]
+        - name: wait-for-dbms
+          image: docker.io/bitnami/postgresql-repmgr:11.12.0-debian-10-r44
+          command: ["bash", "-c", "until psql -h pgpool-svc.$(WEB_NAMESPACE).svc.cluster.local -U $(POSTGRES_USER) -d postgres -c 'SELECT 1'; do echo 'waiting for db'; sleep 2; done"]
           resources:
             limits:
               cpu: 500m
               memory: 512M
+          env:
+            - name: WEB_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: POSTGRES_USER
+              value: "postgres"
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secrets
+                  key: postgresql-password
+        - name: create-db
+          image: docker.io/bitnami/postgresql-repmgr:11.12.0-debian-10-r44
+          command: ["bash", "-c", "psql -h pgpool-svc.$(WEB_NAMESPACE).svc.cluster.local -U $(POSTGRES_USER) -d postgres -c 'CREATE DATABASE $(POSTGRES_DB);' || true"]
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512M
+          env:
+            - name: WEB_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: POSTGRES_USER
+              value: "postgres"
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secrets
+                  key: postgresql-password
+            - name: POSTGRES_DB
+              value: "nisse"
+        - name: migrate-db
+          image: ghcr.io/ilkka/nisse/nisse
+          command: ["/app/nisse/bin/nisse", "eval", "Nisse.Release.migrate"]
+          resources:
+            limits:
+              cpu: 500m
+              memory: 2G
           env:
             - name: MIX_ENV
               value: prod
@@ -89,7 +129,7 @@ spec:
                   name: postgres-secrets
                   key: postgresql-password
             - name: DB_URL
-              value: "ecto://$(POSTGRES_USER):$(PGPASSWORD)@pgpool-svc.$(WEB_NAMESPACE).svc.cluster.local:5432/nisse_dev"
+              value: "ecto://$(POSTGRES_USER):$(PGPASSWORD)@pgpool-svc.$(WEB_NAMESPACE).svc.cluster.local:5432/nisse"
             - name: SECRET_KEY_BASE
               value: ''
             - name: SIGNING_SALT
