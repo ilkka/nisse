@@ -62,7 +62,7 @@ RUN mix do phx.digest, compile, assets.deploy
 ## Package release
 ## **********************************************************************
 FROM build as release
-RUN mix release
+RUN mix do phx.gen.release, release
 
 
 ## **********************************************************************
