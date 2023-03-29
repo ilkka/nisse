@@ -14,7 +14,8 @@ config :nisse, NisseWeb.Endpoint,
   server: true,
   http: [
     transport_options: [socket_opts: [:inet6]]
-  ]
+  ],
+  check_origin: ["https://nisse.ilkka.dev", "//localhost:4000"]
 
 # Do not print debug messages in production
 config :logger, level: :info
