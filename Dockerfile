@@ -55,7 +55,7 @@ CMD ["mix", "phx.server"]
 ## **********************************************************************
 FROM base as build
 ENV MIX_ENV=prod
-RUN mix do phx.digest, compile
+RUN mix do phx.digest, compile, assets.deploy
 
 
 ## **********************************************************************
