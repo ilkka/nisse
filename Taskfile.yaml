@@ -1,0 +1,12 @@
+version: "3"
+
+tasks:
+  init:
+    desc: Initialize dev env
+    cmds:
+      - kind create cluster --config ./kind-config.yaml
+
+  teardown:
+    desc: Tear down dev env
+    cmds:
+      - kind delete cluster --name nisse-dev

@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysql-secrets
+data:
+  rootUser: cm9vdA==
+  rootHost: JQ==
+  rootPassword: Z2Fqa3NncmNha2VidGthcmp5ZXRyeXUzdGJjYWsyMzQy
+
+---
+apiVersion: mysql.oracle.com/v2
+kind: InnoDBCluster
+metadata:
+  name: dbcluster
+spec:
+  secretName: mysql-secrets
+  tlsUseSelfSigned: true
+  instances: 2
+  router:
+    instances: 1
