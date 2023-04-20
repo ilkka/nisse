@@ -14,6 +14,7 @@ manifests:
     # For some reason having this here does _not_ ensure that CRDs get installed before
     # deploying the operator
     #- https://raw.githubusercontent.com/mysql/mysql-operator/trunk/deploy/deploy-crds.yaml
-    - https://raw.githubusercontent.com/mysql/mysql-operator/trunk/deploy/deploy-operator.yaml
-    - k8s/db-mysql.yaml
+    #- https://raw.githubusercontent.com/mysql/mysql-operator/trunk/deploy/deploy-operator.yaml
+    #- k8s/db-mysql.yaml
+    - k8s/db-postgres.yaml
     - k8s/web.yaml
