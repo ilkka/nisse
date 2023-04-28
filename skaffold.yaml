@@ -9,6 +9,11 @@ build:
     - image: ghcr.io/ilkka/nisse/nisse
       docker:
         dockerfile: Dockerfile
+portForward:
+  - resourceType: Service
+    resourceName: web
+    port: 4000
+    localPort: 4000
 manifests:
   rawYaml:
     # For some reason having this here does _not_ ensure that CRDs get installed before
