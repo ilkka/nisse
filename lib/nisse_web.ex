@@ -2,23 +2,23 @@ defmodule NisseWeb do
   @moduledoc """
   The entrypoint for defining your web interface, such
   as controllers, views, channels and so on.
-  
+
   This can be used in your application as:
-  
+
       use NisseWeb, :controller
       use NisseWeb, :html
-  
+
   The definitions below will be executed for every view,
   controller, etc, so keep them short and clean, focused
   on imports, uses and aliases.
-  
+
   Do NOT define functions inside the quoted expressions
   below. Instead, define any helper function in modules
   and import those modules here.
   """
 
   def static_paths, do: ~w(assets fonts images favicon.ico robots.txt)
-  
+
   # done
   def controller do
     quote do
@@ -38,10 +38,10 @@ defmodule NisseWeb do
   def html do
     quote do
       use Phoenix.Component
-      
+
       # Import convenience functions from controllers
       import Phoenix.Controller,
-        only: [get_csrf_token: 0, get_flash: 1, get_flash: 2, view_module: 1, view_template: 1]
+        only: [get_csrf_token: 0, view_module: 1, view_template: 1]
 
       # Include general helpers for rendering HTML
       unquote(html_helpers())
@@ -89,14 +89,14 @@ defmodule NisseWeb do
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
 
-      # Import LiveView helpers
-      import Phoenix.Component
-      import NisseWeb.LiveHelpers
-
-      import NisseWeb.ErrorHelpers
+      # Core components and localisation
+      import NisseWeb.CoreComponents
       import NisseWeb.Gettext
-      alias NisseWeb.Router.Helpers, as: Routes
 
+      # shortcuts for js commands
+      alias Phoenix.LiveView.JS
+
+      # enables routes generation with the ~p sigil
       unquote(verified_routes())
     end
   end

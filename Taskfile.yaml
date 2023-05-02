@@ -5,8 +5,17 @@ tasks:
     desc: Initialize dev env
     cmds:
       - kind create cluster --config ./kind-config.yaml
+    status:
+      - kind get clusters | grep -q nisse-dev
 
   teardown:
     desc: Tear down dev env
     cmds:
       - kind delete cluster --name nisse-dev
+
+  default:
+    desc: Run in dev mode
+    deps:
+      - init
+    cmds:
+      - skaffold dev
