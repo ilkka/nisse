@@ -1,24 +1,30 @@
 <div>
-<h2><%= @title %></h2>
+  <h2><%= @title %></h2>
 
-<.form let={f} for={@changeset} id="plant-form" phx-target={@myself} phx-change="validate" phx-submit="save">
+  <.form
+    :let={f}
+    for={@changeset}
+    id="plant-form"
+    phx-target={@myself}
+    phx-change="validate"
+    phx-submit="save"
+  >
+    <%= label(f, :name) %>
+    <%= text_input(f, :name) %>
 
-  <%= label f, :name %>
-  <%= text_input f, :name %>
-  <%= error_tag f, :name %>
+    <%= label(f, :species_id) %>
+    <%= select(f, :species_id, Enum.map(@all_species, &{&1.name, &1.id}), prompt: "Unknown") %>
 
-  <%= label f, :species_id %>
-  <%= select f, :species_id, Enum.map(@all_species, &{&1.name, &1.id}), prompt: "Unknown" %>
-  <%= error_tag f, :species_id %>
+    <%= label(f, :spot_id) %>
+    <%= select(f, :spot_id, Enum.map(@spots, &{"#{&1.label}, #{&1.room.label}", &1.id})) %>
 
-  <%= label f, :spot_id %>
-  <%= select f, :spot_id, Enum.map(@spots, &{"#{&1.label}, #{&1.room.label}", &1.id}) %>
-  <%= error_tag f, :spot_id %>
+    <%= label(f, :acquired_on) %>
+    <%= date_select(f, :acquired_on,
+      value: Date.utc_today(),
+      year: [options: 1900..(Date.utc_today().year + 1)]
+    ) %>
 
-  <%= label f, :acquired_on %>
-  <%= date_select f, :acquired_on, value: Date.utc_today(), year: [options: 1900..(Date.utc_today().year + 1)] %>
-  <%= error_tag f, :acquired_on %>
-
-  <%= submit "Save", phx_disable_with: "Saving..." %>
-</.form>
+    <%= submit("Save", phx_disable_with: "Saving...") %>
+  </.form>
 </div>
+

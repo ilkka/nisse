@@ -1,27 +1,25 @@
 <div>
-<h2><%= @title %></h2>
+  <.header>
+    <h2><%= @title %></h2>
+  </.header>
 
-<.form let={f} for={@changeset} id="spot-form" phx-target={@myself} phx-change="validate" phx-submit="save">
-  <%= label f, :label %>
-  <%= text_input f, :label %>
-  <%= error_tag f, :label %>
+  <.simple_form let={f} for={@changeset} id="spot-form" phx-target={@myself} phx-change="validate" phx-submit="save">
+    <.input field={@changeset[:label]} type="text" label="Label" />
 
-  <%= label f, :room_id %>
-  <%= select f, :room_id, Enum.map(@rooms, &{&1.label, &1.id}) %>
-  <%= error_tag f, :room_id %>
+    <%= label f, :room_id %>
+    <%= select f, :room_id, Enum.map(@rooms, &{&1.label, &1.id}) %>
 
-  <%= label f, :light_direction %>
-  <%= select f, :light_direction, @light_directions %>
-  <%= error_tag f, :light_direction %>
+    <%= label f, :light_direction %>
+    <%= select f, :light_direction, @light_directions %>
 
-  <%= label f, :light_level %>
-  <%= select f, :light_level, @light_levels %>
-  <%= error_tag f, :light_level %>
+    <%= label f, :light_level %>
+    <%= select f, :light_level, @light_levels %>
 
-  <%= label f, :temperature %>
-  <%= select f, :temperature, @temperatures %>
-  <%= error_tag f, :temperature %>
+    <%= label f, :temperature %>
+    <%= select f, :temperature, @temperatures %>
 
-  <%= submit "Save", phx_disable_with: "Saving..." %>
-</.form>
+    <:actions>
+      <.button phx_disable_with="Saving...">Save</.button>
+    </:actions>
+  </.simple_form>
 </div>
