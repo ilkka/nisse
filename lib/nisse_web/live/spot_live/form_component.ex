@@ -7,10 +7,10 @@ defmodule NisseWeb.SpotLive.FormComponent do
   def mount(socket) do
     socket =
       socket
-      |> assign(rooms: list_rooms())
-      |> assign(light_directions: get_light_directions())
-      |> assign(light_levels: get_light_levels())
-      |> assign(temperatures: get_temperatures())
+      |> assign(rooms: Plants.list_rooms())
+      |> assign(light_directions: Plants.light_directions())
+      |> assign(light_levels: Plants.light_levels())
+      |> assign(temperatures: Plants.temperatures())
 
     {:ok, socket}
   end
@@ -63,21 +63,5 @@ defmodule NisseWeb.SpotLive.FormComponent do
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, changeset: changeset)}
     end
-  end
-
-  defp list_rooms do
-    Plants.list_rooms()
-  end
-
-  defp get_light_directions do
-    Plants.light_directions()
-  end
-
-  defp get_light_levels do
-    Plants.light_levels()
-  end
-
-  defp get_temperatures do
-    Plants.temperatures()
   end
 end
