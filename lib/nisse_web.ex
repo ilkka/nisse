@@ -34,7 +34,6 @@ defmodule NisseWeb do
     end
   end
 
-  # done
   def html do
     quote do
       use Phoenix.Component
@@ -48,7 +47,6 @@ defmodule NisseWeb do
     end
   end
 
-  # done
   def live_view do
     quote do
       use Phoenix.LiveView,
@@ -66,7 +64,6 @@ defmodule NisseWeb do
     end
   end
 
-  # done
   def router do
     quote do
       use Phoenix.Router, helpers: false
@@ -77,7 +74,6 @@ defmodule NisseWeb do
     end
   end
 
-  # done
   def channel do
     quote do
       use Phoenix.Channel
