@@ -68,7 +68,7 @@ RUN mix do phx.gen.release, release
 ## **********************************************************************
 ## Run release in production mode
 ## **********************************************************************
-FROM debian:11.6-slim as deploy
+FROM debian:bullseye-20230612-slim as deploy
 LABEL maintainer="Ilkka Poutanen <ilkka@ilkka.dev>"
 RUN apt-get update \
   && export DEBIAN_FRONTEND=noninteractive \
