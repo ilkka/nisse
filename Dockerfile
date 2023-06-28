@@ -38,7 +38,7 @@ WORKDIR /app
 COPY mix.exs mix.lock ./
 RUN MIX_ENV=dev mix do deps.get, deps.compile
 RUN MIX_ENV=prod mix do deps.get, deps.compile
-COPY . ./
+COPY assets config docs lib priv test .credo.exs .formatter.exs mix.exs mix.lock README.md ./
 
 
 ## **********************************************************************
