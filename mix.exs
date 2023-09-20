@@ -36,7 +36,7 @@ defmodule Nisse.MixProject do
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
       {:ecto_sql, "~> 3.4"},
       {:floki, ">= 0.0.0", only: :test},
-      {:gettext, "~> 0.11"},
+      {:gettext, "~> 0.23"},
       {:jason, "~> 1.0"},
       {:phoenix, "~> 1.6.0"},
       {:phoenix_ecto, "~> 4.1"},
