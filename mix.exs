@@ -48,7 +48,7 @@ defmodule Nisse.MixProject do
       {:postgrex, ">= 0.0.0"},
       {:sobelow, "~> 0.13", only: :dev},
       {:telemetry_metrics, "~> 0.6"},
-      {:telemetry_poller, "~> 0.5"},
+      {:telemetry_poller, "~> 1.0"},
       {:timex, "~> 3.7"},
       {:vapor, "~> 0.10"},
       {:esbuild, "~> 0.7.0", runtime: Mix.env() == :dev}
