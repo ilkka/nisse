@@ -10,7 +10,7 @@ jobs:
       UML_FILES: "**.wsd"
       OUTPUT_DIR: "docs"
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 1
       - name: Make sure output directory exists
