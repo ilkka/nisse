@@ -20,7 +20,7 @@ jobs:
         with:
           args: -v -tpng -o ${{ env.OUTPUT_DIR }} ${{ env.UML_FILES }}
       - name: Push Local Changes
-        uses: stefanzweifel/git-auto-commit-action@v4
+        uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "Update rendered PlantUML diagrams"
           branch: ${{ github.head_ref }}
