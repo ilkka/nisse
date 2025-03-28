@@ -10,7 +10,7 @@ First run `mix deps.get` to get dependencies.
 
 Then execute `mix phx.gen.secret` twice and put the values into a file called `.env` at the root of the repo:
 
-```
+```txt
 SECRET_KEY_BASE=<secret 1>
 SIGNING_SALT=<secret 2>
 ```
@@ -31,8 +31,8 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
 ## Learn more
 
-- Official website: https://www.phoenixframework.org/
-- Guides: https://hexdocs.pm/phoenix/overview.html
-- Docs: https://hexdocs.pm/phoenix
-- Forum: https://elixirforum.com/c/phoenix-forum
-- Source: https://github.com/phoenixframework/phoenix
+- Official website: <https://www.phoenixframework.org/>
+- Guides: <https://hexdocs.pm/phoenix/overview.html>
+- Docs: <https://hexdocs.pm/phoenix>
+- Forum: <https://elixirforum.com/c/phoenix-forum>
+- Source: <https://github.com/phoenixframework/phoenix>

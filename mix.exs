@@ -47,6 +47,7 @@ defmodule Nisse.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:postgrex, ">= 0.0.0"},
       {:sobelow, "~> 0.13", only: :dev},
+      {:ssl_verify_fun, ">= 0.0.0", manager: :rebar3, override: true},
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 0.5"},
       {:timex, "~> 3.7"},
