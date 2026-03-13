@@ -49,7 +49,7 @@ defmodule Nisse.MixProject do
       {:sobelow, "~> 0.13", only: :dev},
       {:ssl_verify_fun, ">= 0.0.0", manager: :rebar3, override: true},
       {:telemetry_metrics, "~> 0.6"},
-      {:telemetry_poller, "~> 0.5"},
+      {:telemetry_poller, "~> 1.0"},
       {:timex, "~> 3.7"},
       {:vapor, "~> 0.10"},
       {:esbuild, "~> 0.7.0", runtime: Mix.env() == :dev}
